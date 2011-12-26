@@ -1,1 +1,8 @@
-Hello {{ name }}!
+{% extends 'Jobeet2Bundle::layout.html.twig' %}
+
+{% block body %}
+Bonjour !<br/>
+<br/>
+<a href="{{ path('home') }}">&raquo; Accéder à la page questionnaire</a>
+<br/>
+{% endblock %}

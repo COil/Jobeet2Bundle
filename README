@@ -1,20 +1,21 @@
 Jobeet2
 =======
 
-Current Symfony2 version: 2.0.7
+Current Symfony2 version: 2.0.8
 
 This is full Jobeet2 tutorial for Symfony2. All the code was done by me and I didn't
 cheat on others implementations so the code may vary with what you'll find on other
 Jobeet2 repositories.
 
-Nevertheless, I tried to produce the cleanest code I could with respecting 100%
+Nevertheless, I tried to produce the cleanest code I could by respecting 100%
 of the Symfony2 coding standarts.
 
 1) Installation
 ---------------
 
-Follow the instructions mentionned in the README.md file of the Symfony2 standart
-edition.
+Download the Symfony2 standart edition.
+Follow the instructions mentionned in the README.md file and remove the demo Acme
+bundle.
 
 ### Testing configuration
 
@@ -28,9 +29,14 @@ Correct your configuration depending on the results.
 
 $ php app/console generate:bundle
 
-* Namespace: "Jobeet/JobeetBundle"
-* Bundle name: "JobeetBundle"
+* Namespace: "COil/Jobeet2Bundle"
+* Bundle name: "Jobeet2Bundle"
 * Target directory: leave the default value
 * Format to use: leave the default value
 * Generate the whole directory structure: "yes"
 * Confirm: "yes"
+
+3) Layout
+---------
+
+* Copy a default layout in "COil\Jobeet2Bundle\Resourses\Views\layout.html.twig"
