@@ -1,0 +1,46 @@
+Category:
+  type: entity
+  table: category
+  fields:
+    id:
+      id: true
+      type: bigint
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    name:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    slug:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    createdAt:
+      type: datetime
+      nullable: false
+      column: created_at
+    updatedAt:
+      type: datetime
+      nullable: false
+      column: updated_at
+  manyToMany:
+    affiliate:
+      targetEntity: Affiliate
+      cascade: {  }
+      mappedBy: null
+      inversedBy: category
+      joinTable:
+        name: category_affiliate
+        joinColumns:
+          -
+            name: category_id
+            referencedColumnName: id
+        inverseJoinColumns:
+          -
+            name: affiliate_id
+            referencedColumnName: id
+      orderBy: null
+  lifecycleCallbacks: {  }

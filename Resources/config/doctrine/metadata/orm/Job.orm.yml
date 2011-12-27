@@ -1,0 +1,88 @@
+Job:
+  type: entity
+  table: job
+  fields:
+    id:
+      id: true
+      type: bigint
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    type:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    company:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    logo:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    url:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    position:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    location:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    description:
+      type: text
+      nullable: false
+    howToApply:
+      type: text
+      nullable: false
+      column: how_to_apply
+    token:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    isPublic:
+      type: boolean
+      nullable: false
+      column: is_public
+    isActivated:
+      type: boolean
+      nullable: false
+      column: is_activated
+    email:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    expiresAt:
+      type: datetime
+      nullable: false
+      column: expires_at
+    createdAt:
+      type: datetime
+      nullable: false
+      column: created_at
+    updatedAt:
+      type: datetime
+      nullable: false
+      column: updated_at
+  oneToOne:
+    category:
+      targetEntity: Category
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        category_id:
+          referencedColumnName: id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

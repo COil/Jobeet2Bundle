@@ -1,0 +1,46 @@
+Affiliate:
+  type: entity
+  table: affiliate
+  fields:
+    id:
+      id: true
+      type: bigint
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    url:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    email:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    token:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    isActive:
+      type: boolean
+      nullable: false
+      column: is_active
+    createdAt:
+      type: datetime
+      nullable: false
+      column: created_at
+    updatedAt:
+      type: datetime
+      nullable: false
+      column: updated_at
+  manyToMany:
+    category:
+      targetEntity: Category
+      cascade: {  }
+      mappedBy: affiliate
+      inversedBy: null
+      joinTable: null
+      orderBy: null
+  lifecycleCallbacks: {  }

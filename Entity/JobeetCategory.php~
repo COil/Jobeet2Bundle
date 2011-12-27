@@ -1,0 +1,72 @@
+<?php
+
+namespace COil\Jobeet2Bundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * COil\Jobeet2Bundle\Entity\JobeetCategory
+ *
+ * @ORM\Table(name="jobeet_category")
+ * @ORM\Entity
+ */
+class JobeetCategory
+{
+    /**
+     * @var bigint $id
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string $name
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string $slug
+     *
+     * @ORM\Column(name="slug", type="string", length=255, nullable=false)
+     */
+    private $slug;
+
+    /**
+     * @var datetime $createdAt
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private $createdAt;
+
+    /**
+     * @var datetime $updatedAt
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    private $updatedAt;
+
+    /**
+     * @var JobeetAffiliate
+     *
+     * @ORM\ManyToMany(targetEntity="JobeetAffiliate", inversedBy="category")
+     * @ORM\JoinTable(name="jobeet_category_affiliate",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="affiliate_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $affiliate;
+
+    public function __construct()
+    {
+        $this->affiliate = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

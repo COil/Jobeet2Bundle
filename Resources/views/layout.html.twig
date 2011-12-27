@@ -7,10 +7,11 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <h1><a href="{ path('home') }}">Jobeet2 !</a></h1>
+        <h1><a href="{{ path('home') }}">Jobeet2 !</a></h1>
         <h2>The Jobeet tutorial for Symfony2</h2>
         <hr/>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+        {% include('Jobeet2Bundle:Home:footer.html.twig')  %}
     </body>
 </html>
