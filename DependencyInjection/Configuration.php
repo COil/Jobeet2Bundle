@@ -20,10 +20,28 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('jobeet2');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        //$this->addFixturesSection($rootNode);
 
         return $treeBuilder;
+    }
+
+    /**
+     * Declare the fixtures section for the plugin.
+     *
+     * @param ArrayNodeDefinition $rootNode
+     */
+    private function addFixturesSection($rootNode)
+    {
+        // Todo: configutatioj pour parametrer le nombre d'enregistrement par page
+        $rootNode
+            ->children()
+                ->arrayNode('jobs')
+                ->children()
+                    ->arrayNode('counts')
+                        ->children()
+                    ->end()
+                 ->end()
+            ->end()
+        ;
     }
 }

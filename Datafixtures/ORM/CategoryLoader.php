@@ -2,56 +2,48 @@
 
 namespace COil\Jobeet2Bundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use COil\Jobeet2Bundle\Entity\Category;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+use COil\Jobeet2Bundle\DataFixtures\ORM\LoadJobeet2Data;
+use COil\Jobeet2Bundle\Entity\Category as Category;
+
+class LoadCategoryData extends LoadJobeet2Data implements OrderedFixtureInterface
 {
     /**
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
-
-    /**
-     * Make the sc available to our loader.
+     * Main load function.
      *
-     * @param ContainerInterface $container
+     * @param type $manager
      */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
     public function load($manager)
     {
-        $categories = array(
-            'Design',
-            'Programming',
-            'Manager',
-            'Administrator'
-        );
+        $categories = $this->getModelFixtures();
 
-        foreach ($categories as $name)
+        // Now iterate thought all fixtures
+        foreach ($categories['Category'] as $reference => $columns)
         {
             $category = new Category();
-            $category->setName($name);
-            $category->setSlug($name);
-
-            // @TODO
-            $category->setCreatedAt(new \DateTime);
-            $category->setUpdatedAt(new \DateTime);
+            $category->setName($columns['name']);
+            $category->setSlug($reference);         // TODO
+            $category->setCreatedAt(new \DateTime); // TODO
+            $category->setUpdatedAt(new \DateTime); // TODO
             $manager->persist($category);
             $manager->flush();
 
-            $this->addReference('category_'. $category->getId(), $category);
+            // Add the reference to use it in other fixtures loader
+            $this->addReference('Category_'. $reference, $category);
         }
     }
 
     /**
-     * The order in which fixtures will be loaded
+     * The main fixtures files for this loader.
+     */
+    public function getModelFile()
+    {
+        return 'categories';
+    }
+
+    /**
+     * The order in which fixtures will be loaded.
      */
     public function getOrder()
     {

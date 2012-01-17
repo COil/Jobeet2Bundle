@@ -187,7 +187,6 @@ class Category
      */
     public function __toString()
     {
-        //die(var_dump($this->name));
         return $this->getName();
     }
 }
