@@ -2,16 +2,78 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Jobeet2{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Jobeet2 - Your best job board !{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('bundles/jobeet2/css/main.css') }}" type="text/css" rel="stylesheet" />
+        {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <h1><a href="{{ path('home') }}">Jobeet2 !</a></h1>
-        <h2>The Jobeet tutorial for Symfony2</h2>
-        <hr/>
-        {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
-        {% include('Jobeet2Bundle:Home:footer.html.twig')  %}
+        <div id="container">
+          <div id="header">
+            <div class="content">
+              <h1>
+                  <a href="{{ path('home') }}">
+                      <img src="{{ asset('bundles/jobeet2/images/logo.jpg') }}" alt="Jobeet Job Board" />
+                  </a>
+              </h1>
+
+              <div id="sub_header">
+                <div class="post">
+                  <h2>Ask for people</h2>
+                  <div>
+                    <a href="{{ '/job/index' }}">Post a Job</a>
+                  </div>
+                </div>
+
+                <div class="search">
+                  <h2>Ask for a job</h2>
+                  <form action="" method="get">
+                    <input type="text" name="keywords" id="search_keywords" />
+                    <input type="submit" value="search" />
+                    <div class="help">
+                      Enter some keywords (city, country, position, ...)
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="content">
+            {% if app.session.hasFlash('notice') %}
+                <div class="flash_notice">
+                   {{ app.session.flash('notice') }}
+               </div>
+            {% endif %}
+            {% if app.session.hasFlash('error') %}
+                <div class="flash_notice">
+                   {{ app.session.flash('error') }}
+               </div>
+            {% endif %}
+
+            <div class="content">
+                {% block body %}{% endblock %}
+            </div>
+          </div>
+
+          <div id="footer">
+            <div class="content">
+              <span class="symfony">
+                <img src="{{ asset('bundles/jobeet2/images/jobeet-mini.png') }}" />
+                powered by <a href="http://symfony.com/">
+                    <img src="{{ asset('bundles/jobeet2//images/symfony2.png') }}" width="100" alt="Symfony2 framework" />
+                </a>
+              </span>
+              <ul>
+                <li><a href="">About Jobeet</a></li>
+                <li class="feed"><a href="/feed">Full feed</a></li>
+                <li><a href="">Jobeet API</a></li>
+                <li class="last"><a href="/api">Affiliates</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
     </body>
 </html>

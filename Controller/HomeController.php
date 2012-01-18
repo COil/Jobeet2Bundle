@@ -15,6 +15,21 @@ class HomeController extends Jobeet2Controller
      */
     public function indexAction()
     {
-        return array();
+        return array(
+            'jobeet_jobs' => $this->getJobs()
+        );
+    }
+
+    /**
+     * Get the list of Jobs for the template.
+     */
+    protected function getJobs()
+    {
+        $jobeet_jobs = $this->getDoctrine()
+            ->getRepository('Jobeet2Bundle:Job')
+            ->findAll()
+        ;
+
+        return $jobeet_jobs;
     }
 }

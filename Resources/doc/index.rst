@@ -75,3 +75,8 @@ TODO
 Fichiers a inclure dans le Bundle:
 /app/config/parameters.ini
 /app/config/routing.yml
+
+
+== Temp
+
+{% include('Jobeet2Bundle:Home:footer.html.twig')  %}

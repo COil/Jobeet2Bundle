@@ -19,6 +19,21 @@ use COil\Jobeet2Bundle\Controller\Jobeet2Controller as Jobeet2Controller;
 class JobController extends Jobeet2Controller
 {
     /**
+     * Lists all Job entities.
+     *
+     * @Route("/", name="job")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entities = $em->getRepository('Jobeet2Bundle:Job')->findAll();
+
+        return array('entities' => $entities);
+    }
+
+    /**
      * Finds and displays a Job entity.
      *
      * @Route("/{id}/show", name="job_show")
@@ -27,7 +42,6 @@ class JobController extends Jobeet2Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
         $entity = $em->getRepository('Jobeet2Bundle:Job')->find($id);
 
         if (!$entity) {
@@ -37,8 +51,8 @@ class JobController extends Jobeet2Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'job'         => $entity
-            //'delete_form' => $deleteForm->createView()
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView()
         );
     }
 

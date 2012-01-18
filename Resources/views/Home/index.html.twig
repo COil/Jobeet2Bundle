@@ -1,8 +1,28 @@
 {% extends 'Jobeet2Bundle::layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/jobeet2/css/jobs.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
-Hi buddy !!<br/>
-<br/>
-How are you doing ?
-<br/>
+    <div id="jobs">
+        <table class="jobs">
+            {% set i = 1 %}
+            {% for job in jobeet_jobs %}
+            <tr class="{{ cycle(['odd', 'even'], i) }}">
+                <td class="location">{{ job.location }}</td>
+                <td class="position">
+                    <a href="{{ path('job_show', { id:job.id }) }}">
+                        {{ job.position }}
+                    </a>
+                </td>
+                <td class="company">{{ job.company }}</td>
+            </tr>
+            {% set i = i + 1 %}
+            {% else %}
+                <li>No Jobs found</li>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

@@ -48,7 +48,7 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
             $manager->persist($job);
             $manager->flush();
 
-            // Add the reference to use it in other fixtures loader
+            // Add a reference to be able to use this object in others loaders
             $this->addReference('Job_'. $reference, $job);
         }
     }
@@ -62,7 +62,7 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
     }
 
     /**
-     * The order in which fixtures will be loaded.Ò
+     * The order in which the fixtures for this model will be loaded.
      */
     public function getOrder()
     {
