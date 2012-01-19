@@ -1,7 +1,7 @@
 Jobeet2
 =======
 
-Current Symfony2 version: 2.0.8
+Current Symfony2 version: 2.0.9
 
 This is full Jobeet2 tutorial for Symfony2. All the code was done by me and I didn't
 cheat on others implementations so the code may vary with what you'll find on other
@@ -72,9 +72,15 @@ DAY4
 TODO
 ----
 
-Fichiers a inclure dans le Bundle:
-/app/config/parameters.ini
-/app/config/routing.yml
+Ameliorations:
+
+- Utiliser le DoctrineExtensions bundle pour gerer les slugs et timestampable
+
+
+Finalisation du bundle:
+    - Fichiers a inclure dans le Bundle:
+        /app/config/parameters.ini
+        /app/config/routing.yml
 
 
 == Temp

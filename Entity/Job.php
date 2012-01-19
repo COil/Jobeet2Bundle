@@ -3,6 +3,7 @@
 namespace COil\Jobeet2Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use COil\Jobeet2Bundle\Lib\Jobeet as Jobeet;
 
 /**
  * COil\Jobeet2Bundle\Entity\Job
@@ -141,7 +142,7 @@ class Job
     /**
      * Get id
      *
-     * @return bigint 
+     * @return bigint
      */
     public function getId()
     {
@@ -161,7 +162,7 @@ class Job
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -181,7 +182,7 @@ class Job
     /**
      * Get company
      *
-     * @return string 
+     * @return string
      */
     public function getCompany()
     {
@@ -201,7 +202,7 @@ class Job
     /**
      * Get logo
      *
-     * @return string 
+     * @return string
      */
     public function getLogo()
     {
@@ -221,7 +222,7 @@ class Job
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -241,7 +242,7 @@ class Job
     /**
      * Get position
      *
-     * @return string 
+     * @return string
      */
     public function getPosition()
     {
@@ -261,7 +262,7 @@ class Job
     /**
      * Get location
      *
-     * @return string 
+     * @return string
      */
     public function getLocation()
     {
@@ -281,7 +282,7 @@ class Job
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
@@ -301,7 +302,7 @@ class Job
     /**
      * Get howToApply
      *
-     * @return text 
+     * @return text
      */
     public function getHowToApply()
     {
@@ -321,7 +322,7 @@ class Job
     /**
      * Get token
      *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
@@ -341,7 +342,7 @@ class Job
     /**
      * Get isPublic
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsPublic()
     {
@@ -361,7 +362,7 @@ class Job
     /**
      * Get isActivated
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActivated()
     {
@@ -381,7 +382,7 @@ class Job
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -401,7 +402,7 @@ class Job
     /**
      * Get expiresAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getExpiresAt()
     {
@@ -421,7 +422,7 @@ class Job
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
@@ -441,7 +442,7 @@ class Job
     /**
      * Get updatedAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getUpdatedAt()
     {
@@ -461,7 +462,7 @@ class Job
     /**
      * Get category
      *
-     * @return COil\Jobeet2Bundle\Entity\Category 
+     * @return COil\Jobeet2Bundle\Entity\Category
      */
     public function getCategory()
     {
@@ -469,8 +470,38 @@ class Job
     }
 
     /**
+     * Returne the slug of the company.
+     *
+     * @return String
+     */
+    public function getCompanySlug()
+    {
+        return Jobeet::slugify($this->getCompany());
+    }
+
+    /**
+     * Returns the slug of the position.
+     *
+     * @return String
+     */
+    public function getPositionSlug()
+    {
+        return Jobeet::slugify($this->getPosition());
+    }
+
+    /**
+     * Returne the slug of the location.
+     *
+     * @return String
+     */
+    public function getLocationSlug()
+    {
+        return Jobeet::slugify($this->getLocation());
+    }
+
+    /**
      * Standart string representation of object.
-     * 
+     *
      * @return String
      */
     public function __toString()

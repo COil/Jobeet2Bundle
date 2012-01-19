@@ -21,7 +21,9 @@ class JobController extends Jobeet2Controller
     /**
      * Finds and displays a Job entity.
      *
-     * @Route("/{id}/show", name="job_show")
+     * OLD__@Route("/{id}/show", name="job_show")
+     * @Route("/job/{company_slug}/{location_slug}/{id}/{position_slug}", name="job_show")
+     *
      * @Template()
      */
     public function showAction($id)
@@ -34,7 +36,7 @@ class JobController extends Jobeet2Controller
             throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
             'job'         => $entity
