@@ -13,9 +13,9 @@
                     <div class="feed">
                         <a href="">Feed</a>
                     </div>
-                    <h1>{{ category.name }}</h1>
+                    <h1><a href="{{ path('category_show', { slug:category.slug }) }}">{{ category.name }}</a></h1>
                     <table class="jobs">
-                        {% for j, job in category.jobs %}
+                        {% for j, job in category.activeJobs %}
                             <tr class="{{ cycle(['odd', 'even'], j) }}">
                                 <td class="location">
                                     {{ job.location }}
@@ -32,6 +32,11 @@
                         {% endfor %}
                     </table>
                 </div>
+                {% if (( category.countActiveJobs - maxJobsOnHomepage) > 0) %}
+                    <div class="more_jobs">
+                        and {{ category.countActiveJobs - maxJobsOnHomepage }} <a href="{{ path('category_show', { slug:category.slug }) }}">  more...</a>
+                    </div>
+                {% endif %}
             </div>
         {% else %}
             <li>No Categories found</li>

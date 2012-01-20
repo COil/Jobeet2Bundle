@@ -11,7 +11,7 @@ class JobRepository extends EntityRepository
      *
      * @return COil\Jobeet2Bundle\Entity\Job[]
      */
-    public function findAllActiveJobs(Doctrine\ORM\QueryBuilder $q = null)
+    public function findAllActiveJobs($q = null, $returnQuery = false)
     {
 
         if (is_null($q))
@@ -19,15 +19,14 @@ class JobRepository extends EntityRepository
             $q = $this->createQueryBuilder('j');
         }
 
-
         $q = $q
-            ->where('j.expiresAt > :expiresAt')
+            ->andWhere('j.expiresAt > :expiresAt')
             ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
             ->orderBy('j.expiresAt', 'DESC')
             ->getQuery()
         ;
 
-        return $q->getResult();
+        return $returnQuery ? $q : $q->getResult();
     }
 
     /**

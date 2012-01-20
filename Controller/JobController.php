@@ -6,9 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use COil\Jobeet2Bundle\Entity\Job;
 use COil\Jobeet2Bundle\Form\JobType;
-use COil\Jobeet2Bundle\Controller\Jobeet2Controller as Jobeet2Controller;
+use COil\Jobeet2Bundle\Controller\Jobeet2Controller;
 
 
 /**

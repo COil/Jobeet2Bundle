@@ -15,11 +15,24 @@ class HomeController extends Jobeet2Controller
      */
     public function indexAction()
     {
-        // Parameter ti limit the number of returned results
+        $categoryRepo = $this->getRepo('Category');
+
+        // Parameter to limit the number of returned results
         $maxJobsOnHomepage = $this->container->getParameter('jobeet2.max_jobs_on_homepage');
 
+        // Eetrive categories with at least one active jobs
+        $categories = $categoryRepo->findWithJobs();
+
+        // Now retrieve the active jobs
+        foreach ($categories as $category)
+        {
+            $category->setActiveJobs($categoryRepo->getActiveJobs($category->getId(), $maxJobsOnHomepage));
+            $category->setCountActiveJobs($categoryRepo->countActiveJobs($category->getId()));
+        }
+
         return array(
-            'categories' => $this->getRepo('Category')->findWithJobs($maxJobsOnHomepage)
+            'categories'        => $categories,
+            'maxJobsOnHomepage' => $maxJobsOnHomepage
         );
     }
 }

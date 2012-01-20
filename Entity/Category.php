@@ -72,10 +72,27 @@ class Category
      */
     private $affiliate;
 
+    /**
+     * @var      Array   Represents the active jobs associated to the category
+     * @internal         This property is not persisted
+     */
+    private $activeJobs;
+
+    /**
+     * @var      Integer Represents the count of active jobs of the category
+     * @internal         This property is not persisted
+     */
+    private $countActiveJobs;
+
+    /**
+     * Main constructor.
+     */
     public function __construct()
     {
-        $this->affiliate = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->jobs      = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->affiliate  = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->jobs       = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activeJobs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->countActiveJobs = 0;
     }
 
     /**
@@ -206,6 +223,47 @@ class Category
     public function getJobs()
     {
         return $this->jobs;
+    }
+
+    /**
+     * Set the active jobs count.
+     *
+     * @param Integer
+     */
+    public function setCountActiveJobs($count)
+    {
+        $this->countActiveJobs = $count;
+    }
+
+    /**
+     * Retrieve the active jobs count.
+     *
+     * @return Integer
+     */
+    public function countActiveJobs()
+    {
+        return $this->countActiveJobs;
+    }
+
+    /**
+     * Set the active jobs.
+     *
+     * @param Integer
+     */
+    public function setActiveJobs($jobs)
+    {
+        $this->activeJobs = $jobs;
+        $this->setCountActiveJobs(count($jobs));
+    }
+
+    /**
+     * Retrieve the active jobs.
+     *
+     * @return Integer
+     */
+    public function getActiveJobs()
+    {
+        return $this->activeJobs;
     }
 
     /**
