@@ -15,21 +15,11 @@ class HomeController extends Jobeet2Controller
      */
     public function indexAction()
     {
+        // Parameter ti limit the number of returned results
+        $maxJobsOnHomepage = $this->container->getParameter('jobeet2.max_jobs_on_homepage');
+
         return array(
-            'jobeet_jobs' => $this->getJobs()
+            'categories' => $this->getRepo('Category')->findWithJobs($maxJobsOnHomepage)
         );
-    }
-
-    /**
-     * Get the list of Jobs for the template.
-     */
-    protected function getJobs()
-    {
-        $jobeet_jobs = $this->getDoctrine()
-            ->getRepository('Jobeet2Bundle:Job')
-            ->findAll()
-        ;
-
-        return $jobeet_jobs;
     }
 }

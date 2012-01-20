@@ -38,8 +38,8 @@ abstract class LoadJobeet2Data extends AbstractFixture implements ContainerAware
     public function getModelFixtures()
     {
         $fixturesPath = realpath(dirname(__FILE__). '/../fixtures');
-        $objects      = Yaml::parse(file_get_contents($fixturesPath. '/'. $this->getModelFile(). '.yml'));
+        $fixtures     = Yaml::parse(file_get_contents($fixturesPath. '/'. $this->getModelFile(). '.yml'));
 
-        return $objects;
+        return $fixtures;
     }
 }

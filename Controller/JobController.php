@@ -30,7 +30,7 @@ class JobController extends Jobeet2Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('Jobeet2Bundle:Job')->find($id);
+        $entity = $this->getRepo('Job')->findOneActive($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Job entity.');

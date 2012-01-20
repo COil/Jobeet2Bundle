@@ -4,6 +4,7 @@ namespace COil\Jobeet2Bundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Processor;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -20,28 +21,13 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('jobeet2');
 
-        //$this->addFixturesSection($rootNode);
+//        $rootNode
+//            ->children()
+//                ->scalarNode('active_days2')->defaultValue(30)->end()
+//                ->scalarNode('max_jobs_on_homepage')->defaultValue(10)->end()
+//            ->end()
+//        ;
 
         return $treeBuilder;
-    }
-
-    /**
-     * Declare the fixtures section for the plugin.
-     *
-     * @param ArrayNodeDefinition $rootNode
-     */
-    private function addFixturesSection($rootNode)
-    {
-        // Todo: configutatioj pour parametrer le nombre d'enregistrement par page
-        $rootNode
-            ->children()
-                ->arrayNode('jobs')
-                ->children()
-                    ->arrayNode('counts')
-                        ->children()
-                    ->end()
-                 ->end()
-            ->end()
-        ;
     }
 }

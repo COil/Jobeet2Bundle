@@ -56,33 +56,37 @@ php app/console doctrine:generate:entities Jobeet2Bundle
 
 http://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html
 
-TODO:
- - Add the Timestampable (stof Doctrine extensions) behavior to the 3 main entities
 
 
-DAY4
-----
+Differences entre symfony1 et Symfony2
+--------------------------------------
 
-3) Layout
----------
+- Pas de slot dans Symfony, il suffit d'utiliser la notion de Block de Twig (Day 4)
+- Pas de Doctrine Route dans Symfony2 (Day 5)
 
-* Copy a default layout in "COil\Jobeet2Bundle\Resourses\Views\layout.html.twig"
+
+Problemes en cours
+------------------
 
 
 TODO
 ----
 
-Ameliorations:
-
 - Utiliser le DoctrineExtensions bundle pour gerer les slugs et timestampable
 
 
-Finalisation du bundle:
-    - Fichiers a inclure dans le Bundle:
-        /app/config/parameters.ini
-        /app/config/routing.yml
+TUNING / OPTIMISATIONS
+----------------------
+
+- Methode findAllActiveJobs, virer la possibilite de passer un query builder ?
+
+
+FINALISATION DU BUNDLE
+----------------------
+
+- Fichiers a inclure dans le Bundle:
+    /app/config/parameters.ini
+    /app/config/routing.yml
 
 
 == Temp
-
-{% include('Jobeet2Bundle:Home:footer.html.twig')  %}

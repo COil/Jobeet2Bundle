@@ -3,12 +3,13 @@
 namespace COil\Jobeet2Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * COil\Jobeet2Bundle\Entity\Category
  *
  * @ORM\Table(name="category")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="COil\Jobeet2Bundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -50,6 +51,13 @@ class Category
     private $updatedAt;
 
     /**
+     * @var ArrayCollection $job
+     *
+     * @ORM\OneToMany(targetEntity="Job", mappedBy="category")
+     */
+    private $jobs;
+
+    /**
      * @var Affiliate
      *
      * @ORM\ManyToMany(targetEntity="Affiliate", inversedBy="category")
@@ -67,8 +75,8 @@ class Category
     public function __construct()
     {
         $this->affiliate = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->jobs      = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -178,6 +186,26 @@ class Category
     public function getAffiliate()
     {
         return $this->affiliate;
+    }
+
+    /**
+     * Add a Job to the category.
+     *
+     * @param COil\Jobeet2Bundle\Entity\Affiliate $affiliate
+     */
+    public function addJob(\COil\Jobeet2Bundle\Entity\Job $job)
+    {
+        $this->jobs[] = $job;
+    }
+
+    /**
+     * Get Jobs.
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getJobs()
+    {
+        return $this->jobs;
     }
 
     /**

@@ -7,22 +7,34 @@
 
 {% block body %}
     <div id="jobs">
-        <table class="jobs">
-            {% set i = 1 %}
-            {% for job in jobeet_jobs %}
-            <tr class="{{ cycle(['odd', 'even'], i) }}">
-                <td class="location">{{ job.location }}</td>
-                <td class="position">
-                    <a href="{{ path('job_show', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug, }) }}">
-                        {{ job.position }}
-                    </a>
-                </td>
-                <td class="company">{{ job.company }}</td>
-            </tr>
-            {% set i = i + 1 %}
-            {% else %}
-                <li>No Jobs found</li>
-            {% endfor %}
-        </table>
+        {% for i, category in categories %}
+            <div class="category_{{ category.slug }}">
+                <div class="category">
+                    <div class="feed">
+                        <a href="">Feed</a>
+                    </div>
+                    <h1>{{ category.name }}</h1>
+                    <table class="jobs">
+                        {% for j, job in category.jobs %}
+                            <tr class="{{ cycle(['odd', 'even'], j) }}">
+                                <td class="location">
+                                    {{ job.location }}
+                                </td>
+                                <td class="position">
+                                    <a href="{{ path('job_show', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug, }) }}">
+                                        {{ job.position }}
+                                    </a>
+                                </td>
+                                <td class="company">
+                                    {{ job.company }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <li>No Categories found</li>
+        {% endfor %}
     </div>
 {% endblock %}

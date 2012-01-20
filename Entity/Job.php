@@ -5,11 +5,14 @@ namespace COil\Jobeet2Bundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use COil\Jobeet2Bundle\Lib\Jobeet as Jobeet;
 
+use COil\Jobeet2Bundle\Repository\JobRepository;
+
 /**
  * COil\Jobeet2Bundle\Entity\Job
  *
  * @ORM\Table(name="job")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="COil\Jobeet2Bundle\Repository\JobRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Job
 {
@@ -128,16 +131,12 @@ class Job
     private $updatedAt;
 
     /**
-     * @var Category
+     * @var COil\Jobeet2Bundle\Entity\Category $category
      *
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
-
-
 
     /**
      * Get id
@@ -400,6 +399,17 @@ class Job
     }
 
     /**
+     * @ORM\prePersist
+     */
+    public function setExpiresAtValue()
+    {
+        $expiresAt = new \DateTime($this->getCreatedAt()->format('Y-m-d H:i:s'));
+        $expiresAt->add(new \DateInterval('P30D'));
+        $this->expiresAt = $expiresAt;
+    }
+
+
+    /**
      * Get expiresAt
      *
      * @return datetime
@@ -508,5 +518,4 @@ class Job
     {
         return sprintf('%s at %s (%s)', $this->getPosition(), $this->getCompany(), $this->getLocation());
     }
-
 }
