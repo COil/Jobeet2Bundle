@@ -14,23 +14,7 @@
                         <a href="">Feed</a>
                     </div>
                     <h1><a href="{{ path('category_show', { slug:category.slug }) }}">{{ category.name }}</a></h1>
-                    <table class="jobs">
-                        {% for j, job in category.activeJobs %}
-                            <tr class="{{ cycle(['odd', 'even'], j) }}">
-                                <td class="location">
-                                    {{ job.location }}
-                                </td>
-                                <td class="position">
-                                    <a href="{{ path('job_show', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug, }) }}">
-                                        {{ job.position }}
-                                    </a>
-                                </td>
-                                <td class="company">
-                                    {{ job.company }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+                    {% include 'Jobeet2Bundle:Job:_list.html.twig'  with {'category': category} %}
                 </div>
                 {% if (( category.countActiveJobs - maxJobsOnHomepage) > 0) %}
                     <div class="more_jobs">
@@ -39,7 +23,7 @@
                 {% endif %}
             </div>
         {% else %}
-            <li>No Categories found</li>
+            <li>No categories found</li>
         {% endfor %}
     </div>
 {% endblock %}

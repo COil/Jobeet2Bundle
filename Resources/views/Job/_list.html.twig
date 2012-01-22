@@ -1,0 +1,19 @@
+<table class="jobs">
+    {% for i, job in category.activeJobs %}
+        <tr class="{{ cycle(['odd', 'even'], i) }}">
+            <td class="location">
+                {{ job.location }}
+            </td>
+            <td class="position">
+                <a href="{{ path('job_show', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug, }) }}">
+                    {{ job.position }}
+                </a>
+            </td>
+            <td class="company">
+                {{ job.company }}
+            </td>
+        </tr>
+    {% else %}
+        <tr><td>No active jobs found in this category.</td></tr>
+    {% endfor %}
+</table>
