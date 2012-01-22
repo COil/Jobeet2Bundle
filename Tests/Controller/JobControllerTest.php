@@ -6,6 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class JobControllerTest extends WebTestCase
 {
+    public function testShow()
+    {
+        // Create a new client to browse the application
+        $client = static::createClient();
+
+        // Create a new entry in the database
+        $crawler = $client->request('GET', '/');
+        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
+//        $crawler = $client->click($crawler->selectLink('Web Developper')->link());
+//        $this->assertTrue($crawler->filter('html:contains("How to apply?")')->count() > 0);
+    }
+
+
     /*
     public function testCompleteScenario()
     {
