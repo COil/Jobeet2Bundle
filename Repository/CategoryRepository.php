@@ -38,8 +38,10 @@ class CategoryRepository extends EntityRepository
     }
 
     /**
-     * Count the number of active Jobs for a given category.
-     * @param type $id
+     * Get the active Jobs for a given category.
+     *
+     * @param Integer $id
+     * @param Integer $maxResults
      */
     public function getActiveJobs($id, $maxResults = null)
     {
@@ -48,8 +50,12 @@ class CategoryRepository extends EntityRepository
         $q = $repo->createQueryBuilder('j')
             ->andWhere('j.category = :category')
             ->setParameter('category', $id)
-            ->setMaxResults($maxResults)
         ;
+
+        if (!is_null($maxResults))
+        {
+            $q->setMaxResults($maxResults);
+        }
 
         return $repo->findAllActiveJobs($q);
     }
@@ -60,7 +66,7 @@ class CategoryRepository extends EntityRepository
      * @param type $q
      * @return type
      */
-    public function addWithActiveJobsCriterias($q)
+    protected function addWithActiveJobsCriterias($q)
     {
         $q->leftJoin('c.jobs', 'j')
             ->andWhere('j.expiresAt > :expiresAt')

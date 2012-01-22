@@ -25,13 +25,16 @@ class CategoryController extends Jobeet2Controller
      *
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($slug)
     {
-        $entity = $this->getRepo('Category')->find($id);
+        $entity = $this->getRepo('Category')->findOneBySlug($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
+
+        $categoryRepo = $this->getRepo('Category');
+        $entity->setActiveJobs($categoryRepo->getActiveJobs($entity->getId()));
 
         return array(
             'category' => $entity
