@@ -27,17 +27,26 @@ class CategoryController extends Jobeet2Controller
      */
     public function showAction($slug)
     {
-        $entity = $this->getRepo('Category')->findOneBySlug($slug);
+        $category = $this->getRepo('Category')->findOneBySlug($slug);
 
-        if (!$entity) {
+        if (!$category) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
+        // Get query
         $categoryRepo = $this->getRepo('Category');
-        $entity->setActiveJobs($categoryRepo->getActiveJobs($entity->getId()));
+        $query = $categoryRepo->getActiveJobs($category->getId(), null, true);
 
-        return array(
-            'category' => $entity
+        // Build paginator
+        $paginator = $this->get('knp_paginator');
+        $pager = $paginator->paginate(
+            $query,
+            $this->get('request')->query->get('page', 1),
+            $this->container->getParameter('jobeet2.max_jobs_on_homepage')
         );
+
+        $pager->setTemplate('Jobeet2Bundle:Category:_pager.html.twig');
+
+        return compact('category', 'pager');
     }
 }

@@ -1,7 +1,7 @@
 # Default plugin parameters
 parameters:
-    jobeet2.active_days:          30
-    jobeet2.max_jobs_on_homepage: 10
+    jobeet2.active_days:               30
+    jobeet2.max_jobs_on_homepage:      10
 
 services:
 #    jobeet2.example:

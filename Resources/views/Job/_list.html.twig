@@ -1,5 +1,10 @@
+{# If pager is not defined then get the active jobs #}
+{% if pager is not defined %}
+    {% set pager = category.activeJobs %}
+{% endif %}
+
 <table class="jobs">
-    {% for i, job in category.activeJobs %}
+    {% for i, job in pager %}
         <tr class="{{ cycle(['odd', 'even'], i) }}">
             <td class="location">
                 {{ job.location }}

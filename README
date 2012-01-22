@@ -10,3 +10,5 @@ No tutorial here, just code ! :)
 Additional bundles used:
 * doctrine-fixtures
 * DoctrineFixturesBundle
+* knp-components
+* KnpPaginatorBundle

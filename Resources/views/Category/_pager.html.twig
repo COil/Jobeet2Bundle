@@ -1,0 +1,9 @@
+{% include 'Jobeet2Bundle:Includes:_pager.html.twig' %}
+
+<div class="pagination_desc">
+  <strong>{{ totalCount }}</strong> jobs in this category
+
+  {% if pageCount > 1 %}
+    - page <strong>{{ current }}/{{ last }}</strong>
+  {% endif %}
+</div>

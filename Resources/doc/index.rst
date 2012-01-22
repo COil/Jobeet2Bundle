@@ -4,12 +4,12 @@ Jobeet2
 Current Symfony2 version: 2.0.9
 
 This is full Jobeet2 tutorial for Symfony2. All the code was done by me and I didn't
-cheat on others implementations so the code may vary with what you'll find on other
+cheat on other implementations so the code may vary with what you will find on other
 Jobeet2 repositories.
 
 Nevertheless, I tried to produce the cleanest code I could by respecting 100%
-of the Symfony2 coding standarts.
-
+of the Symfony2 coding standarts. The code will be cleaned and improved as
+I will gain experience with Symfony2.
 
 DAY1
 ----
@@ -20,25 +20,6 @@ DAY1
 Download the Symfony2 standart edition.
 Follow the instructions mentionned in the README.md file and remove the demo Acme
 bundle.
-
-### Testing configuration
-
-$ php app/check.php
-
-Correct your configuration depending on the results.
-(Note that your PHP cli configuration could be different from your Apache one)
-
-2) Bundle initialization
-------------------------
-
-$ php app/console generate:bundle
-
-* Namespace: "COil/Jobeet2Bundle"
-* Bundle name: "Jobeet2Bundle"
-* Target directory: leave the default value
-* Format to use: leave the default value
-* Generate the whole directory structure: "yes"
-* Confirm: "yes"
 
 
 DAY3
@@ -57,7 +38,6 @@ php app/console doctrine:generate:entities Jobeet2Bundle
 http://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html
 
 
-
 Differences entre symfony1 et Symfony2
 --------------------------------------
 
@@ -72,6 +52,7 @@ Problemes en cours
 TODO
 ----
 
+- Utiliser le parametre 
 - Utiliser le DoctrineExtensions bundle pour gerer les slugs et timestampable
 
 

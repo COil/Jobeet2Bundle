@@ -17,4 +17,6 @@
 
 {% include 'Jobeet2Bundle:Job:_list.html.twig'  with {'category': category} %}
 
+{{ pager.render() | raw }}
+
 {% endblock %}

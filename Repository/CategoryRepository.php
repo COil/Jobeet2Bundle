@@ -43,7 +43,7 @@ class CategoryRepository extends EntityRepository
      * @param Integer $id
      * @param Integer $maxResults
      */
-    public function getActiveJobs($id, $maxResults = null)
+    public function getActiveJobs($id, $maxResults = null, $returnQuery = false)
     {
         // Build the query for the current category and use the jobRepository function
         $repo = $this->getEntityManager()->getRepository('Jobeet2Bundle:Job');
@@ -57,7 +57,7 @@ class CategoryRepository extends EntityRepository
             $q->setMaxResults($maxResults);
         }
 
-        return $repo->findAllActiveJobs($q);
+        return $returnQuery ? $q : $repo->findAllActiveJobs($q);
     }
 
     /**
