@@ -18,9 +18,37 @@ class JobControllerTest extends WebTestCase
 //        $this->assertTrue($crawler->filter('html:contains("How to apply?")')->count() > 0);
     }
 
+    protected function create_job($defaults = array())
+    {
+        static $category = null;
+
+        if (is_null($category))
+        {
+            $category = Doctrine_Core::getTable('JobeetCategory')
+              ->createQuery()
+              ->limit(1)
+              ->fetchOne();
+        }
+
+        $job = new Job();
+        $job->fromArray(array_merge(array(
+            'category_id'  => $category->getId(),
+            'company'      => 'Sensio Labs',
+            'position'     => 'Senior Tester',
+            'location'     => 'Paris, France',
+            'description'  => 'Testing is fun',
+            'how_to_apply' => 'Send e-Mail',
+            'email'        => 'job@example.com',
+            'token'        => rand(1111, 9999),
+            'is_activated' => true,
+        ), $defaults));
+
+        return $job;
+    }
+
 
     /*
-    public function testCompleteScenario()
+    public function exemple()
     {
         // Create a new client to browse the application
         $client = static::createClient();

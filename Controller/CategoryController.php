@@ -42,7 +42,7 @@ class CategoryController extends Jobeet2Controller
         $pager = $paginator->paginate(
             $query,
             $this->get('request')->query->get('page', 1),
-            $this->container->getParameter('jobeet2.max_jobs_on_homepage')
+            $this->container->getParameter('jobeet2.max_jobs_on_category')
         );
 
         $pager->setTemplate('Jobeet2Bundle:Category:_pager.html.twig');
