@@ -32,7 +32,6 @@ php app/console doctrine:mapping:convert yml ./src/COil/Jobeet2Bundle/Resources/
 php app/console doctrine:mapping:import Jobeet2Bundle annotation
 php app/console doctrine:generate:entities Jobeet2Bundle
 
-
 * Installation du plugin de chargement de fixtures
 
 http://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html
@@ -52,7 +51,6 @@ Problemes en cours
 TODO
 ----
 
-- Utiliser le parametre 
 - Utiliser le DoctrineExtensions bundle pour gerer les slugs et timestampable
 
 

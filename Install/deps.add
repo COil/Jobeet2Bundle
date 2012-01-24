@@ -9,7 +9,7 @@
     git=http://github.com/doctrine/DoctrineFixturesBundle.git
     target=/bundles/Doctrine/Bundle/FixturesBundle
 
-    [knp-components]
+[knp-components]
     git=http://github.com/KnpLabs/knp-components.git
 
 [KnpPaginatorBundle]

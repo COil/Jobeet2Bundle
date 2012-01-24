@@ -66,13 +66,28 @@ class CategoryRepository extends EntityRepository
      * @param type $q
      * @return type
      */
-    protected function addWithActiveJobsCriterias($q)
+    protected function addWithActiveJobsCriterias(\Doctrine\ORM\QueryBuilder $q)
     {
         $q->leftJoin('c.jobs', 'j')
             ->andWhere('j.expiresAt > :expiresAt')
             ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
+            ->addOrderBy('c.name', 'ASC')
+            ->addOrderBy('j.createdAt', 'DESC');
         ;
 
         return $q;
+    }
+
+    /**
+     * Get the most recent Job from the category with slug "programming"
+     *
+     * @return Job
+     */
+    public function getMostRecentProgrammingJob()
+    {
+        $programming = $this->findOneBySlug('programming');
+        $job =  $this->getActiveJobs($programming->getId(), 1);
+
+        return $job ? $job[0] : null;
     }
 }

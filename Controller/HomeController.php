@@ -15,12 +15,15 @@ class HomeController extends Jobeet2Controller
      */
     public function indexAction()
     {
+        $this->getDoctrine();
+
+
         $categoryRepo = $this->getRepo('Category');
 
         // Parameter to limit the number of returned results
         $maxJobsOnHomepage = $this->container->getParameter('jobeet2.max_jobs_on_homepage');
 
-        // Eetrive categories with at least one active jobs
+        // Retrieve categories with at least one active job
         $categories = $categoryRepo->findWithJobs();
 
         // Now retrieve the active jobs

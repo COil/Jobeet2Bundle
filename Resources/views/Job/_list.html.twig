@@ -10,7 +10,7 @@
                 {{ job.location }}
             </td>
             <td class="position">
-                <a href="{{ path('job_show', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug, }) }}">
+                <a id="position_{{ job.id }}" href="{{ path('job_show', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug, }) }}">
                     {{ job.position }}
                 </a>
             </td>
