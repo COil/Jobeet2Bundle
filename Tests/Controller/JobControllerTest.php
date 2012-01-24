@@ -8,48 +8,47 @@ class JobControllerTest extends WebTestCase
 {
     public function testShow()
     {
-        // Create a new client to browse the application
-        $client = static::createClient();
+        $client    = static::createClient();
 
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/');
-        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
-//        $crawler = $client->click($crawler->selectLink('Web Developper')->link());
-//        $this->assertTrue($crawler->filter('html:contains("How to apply?")')->count() > 0);
+        // 2 - The job page
+        $crawler   = $client->request('GET', '/');
+        $container = $client->getContainer();
+
+        // 2.1 - Each job on the homepage is clickable and give detailed information
+        $link    = $crawler->filter('.category_programming tr a')->first()->link();
+        $crawler = $client->click($link);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('job_show', $client->getRequest()->get('_route'));
+        $this->assertEquals(1, $client->getRequest()->get('id'));
+
+        // 2.2 - A non-existent job forwards the user to a 404
+        $crawler = $client->request('GET', '/job/foo-inc/milano-italy/0/painter');
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        // 2.3 - An expired job page forwards the user to a 404
+        $expiredJob = $this->getExpiredJob($container);
+        $crawler = $client->request('GET', sprintf('/job/sensio-labs/paris-france/%d/web-developer', $expiredJob->getId()));
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    protected function create_job($defaults = array())
+    /**
+     * Shortcut.
+     *
+     * @param  Container $container
+     * @return Job
+     */
+    protected function getExpiredJob($container)
     {
-        static $category = null;
+        $repo = $container->get('doctrine')->getEntityManager()->getRepository('Jobeet2Bundle:Job');
 
-        if (is_null($category))
-        {
-            $category = Doctrine_Core::getTable('JobeetCategory')
-              ->createQuery()
-              ->limit(1)
-              ->fetchOne();
-        }
-
-        $job = new Job();
-        $job->fromArray(array_merge(array(
-            'category_id'  => $category->getId(),
-            'company'      => 'Sensio Labs',
-            'position'     => 'Senior Tester',
-            'location'     => 'Paris, France',
-            'description'  => 'Testing is fun',
-            'how_to_apply' => 'Send e-Mail',
-            'email'        => 'job@example.com',
-            'token'        => rand(1111, 9999),
-            'is_activated' => true,
-        ), $defaults));
-
-        return $job;
+        return $repo->findOneExpired();
     }
-
 
     /*
     public function exemple()
     {
+        //$container->get('coil.tools.debug')->dump($expiredJob, '$expiredJob', 1);
+
         // Create a new client to browse the application
         $client = static::createClient();
 

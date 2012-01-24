@@ -46,4 +46,20 @@ class JobRepository extends EntityRepository
 
         return $q->getOneOrNullResult();
     }
+
+    /**
+     * Returns an expired job only.
+     *
+     * @return COil\Jobeet2Bundle\Entity\Job
+     */
+    public function findOneExpired()
+    {
+        $q = $this->createQueryBuilder('j')
+            ->andWhere('j.expiresAt < :expiresAt')
+            ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
+            ->getQuery()
+        ;
+
+        return $q->getSingleResult();
+    }
 }
