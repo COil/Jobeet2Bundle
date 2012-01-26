@@ -12,9 +12,34 @@ I will gain experience with Symfony2.
 
 No tutorial here, just code ! :)
 
+See you. COil :)
+
+INFOS
+-----
+
 Additional bundles used:
 
 * doctrine-fixtures
 * DoctrineFixturesBundle
 * knp-components
 * KnpPaginatorBundle
+
+TODO
+----
+
+* Use the DoctrineExtension bundle to hanlde timestamble and sluggable behaviors
+  --> Is it really necessary as using doctrine lifecycle callback works pretty well ?
+
+PROBLEMS
+--------
+
+* Inheritance and theming of form blocks does not seem to work well, to try later...
+  I'd like to use the for_widget(form) like Jobeet1 but only with modifying the blocks:
+  'field_row', 'form_widget' and 'field_widget' [doc|(http://symfony.com/doc/current/cookbook/form/form_customization.html]
+
+TO CHECK
+--------
+
+* Job form: check what is best place to put Job::getTypes() function, in the entity
+  or in the repository class like Jobeet1 ?
+* Check the way activatedQueries() are built, it does not seem the cleanest DRY method

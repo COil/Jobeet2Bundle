@@ -1,0 +1,29 @@
+<form action="{{ path('job_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+    <table id="job_form">
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">Preview your job</button>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for i, field in fields %}
+                <tr>
+                    <th>{{ form_label(form[field]) }}</th>
+                    <td>
+                        {% if helps[field] is defined %}
+                            {{ form_widget(form[field]) }}<br/>
+                            {{ helps[field] }}
+                        {% else %}
+                            {{ form_widget(form[field]) }}
+                        {% endif %}
+                        {{ form_errors(form[field]) }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ form_rest(form) }}
+</form>

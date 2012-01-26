@@ -1,27 +1,21 @@
 {% extends 'Jobeet2Bundle::layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/jobeet2/css/job.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
 
-<h1>Job edit</h1>
+<h1>Edit Job</h1>
 
-<form action="{{ path('job_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
+{% include 'Jobeet2Bundle:Job:_form.html.twig' with {'form': form, 'fields': fields } %}
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('job') }}">
+        <a href="{{ path('home') }}">
             Back to the list
         </a>
-    </li>
-    <li>
-        <form action="{{ path('job_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
     </li>
 </ul>
 

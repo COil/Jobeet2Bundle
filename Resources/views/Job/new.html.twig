@@ -1,19 +1,19 @@
 {% extends 'Jobeet2Bundle::layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/jobeet2/css/job.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
 
-<h1>Job creation</h1>
+<h1>Post a Job</h1>
 
-<form action="{{ path('job_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% include 'Jobeet2Bundle:Job:_form.html.twig' with {'form': form, 'fields': fields} %}
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('job') }}">
+        <a href="{{ path('home') }}">
             Back to the list
         </a>
     </li>

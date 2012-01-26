@@ -5,7 +5,8 @@ namespace COil\Jobeet2Bundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use COil\Jobeet2Bundle\Lib\Jobeet as Jobeet;
 
-use COil\Jobeet2Bundle\Repository\JobRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * COil\Jobeet2Bundle\Entity\Job
@@ -16,6 +17,12 @@ use COil\Jobeet2Bundle\Repository\JobRepository;
  */
 class Job
 {
+    static public $types = array(
+        'full-time' => 'Full time',
+        'part-time' => 'Part time',
+        'freelance' => 'Freelance',
+    );
+
     /**
      * @var bigint $id
      *
@@ -41,10 +48,18 @@ class Job
 
     /**
      * @var string $logo
-     *
      * @ORM\Column(name="logo", type="string", length=255, nullable=true)
+     * @Assert\File(
+     *      maxSize="1M",
+     *      mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}*
+     * )
      */
     private $logo;
+
+    /**
+     * @var Symfony\Component\HttpFoundation\File\UploadedFile  The Uploaded file object for the logo
+     */
+    private $logoUploadedFile;
 
     /**
      * @var string $url
@@ -89,16 +104,16 @@ class Job
     private $token;
 
     /**
-     * @var boolean $isPublic
+     * @var $isPublic
      *
-     * @ORM\Column(name="is_public", type="boolean", nullable=false)
+     * @ORM\Column(name="is_public", type="boolean", nullable=true)
      */
-    private $isPublic;
+    private $isPublic = true;
 
     /**
      * @var boolean $isActivated
      *
-     * @ORM\Column(name="is_activated", type="boolean", nullable=false)
+     * @ORM\Column(name="is_activated", type="boolean", nullable=true)
      */
     private $isActivated;
 
@@ -151,7 +166,7 @@ class Job
     /**
      * Set type
      *
-     * @param string $type
+     * @param string $'type'''
      */
     public function setType($type)
     {
@@ -159,13 +174,33 @@ class Job
     }
 
     /**
-     * Get type
+     * List all allowed types.
+     *
+     * @return type
+     */
+    public static function getTypes()
+    {
+        return self::$types;
+    }
+
+    /**
+     * Get type.
      *
      * @return string
      */
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Translated type name.
+     */
+    public function getTypeName()
+    {
+        $types = self::getTypes();
+
+        return $this->getType() ? $types[$this->getType()] : '';
     }
 
     /**
@@ -319,6 +354,17 @@ class Job
     }
 
     /**
+     * Set token automatically.
+     *
+     * @ORM\prePersist
+     * @param string $token
+     */
+    public function setTokenValue()
+    {
+        $this->token = sha1($this->getEmail(). rand(11111, 99999));
+    }
+
+    /**
      * Get token
      *
      * @return string
@@ -389,37 +435,6 @@ class Job
     }
 
     /**
-     * Set expiresAt
-     *
-     * @param datetime $expiresAt
-     */
-    public function setExpiresAt($expiresAt)
-    {
-        $this->expiresAt = $expiresAt;
-    }
-
-    /**
-     * @ORM\prePersist
-     */
-    public function setExpiresAtValue()
-    {
-        $expiresAt = new \DateTime($this->getCreatedAt()->format('Y-m-d H:i:s'));
-        $expiresAt->add(new \DateInterval('P30D'));
-        $this->expiresAt = $expiresAt;
-    }
-
-
-    /**
-     * Get expiresAt
-     *
-     * @return datetime
-     */
-    public function getExpiresAt()
-    {
-        return $this->expiresAt;
-    }
-
-    /**
      * Set createdAt
      *
      * @param datetime $createdAt
@@ -427,6 +442,14 @@ class Job
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @ORM\prePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -450,6 +473,15 @@ class Job
     }
 
     /**
+     * @ORM\prePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
      * Get updatedAt
      *
      * @return datetime
@@ -457,6 +489,36 @@ class Job
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set expiresAt
+     *
+     * @param datetime $expiresAt
+     */
+    public function setExpiresAt($expiresAt)
+    {
+        $this->expiresAt = $expiresAt;
+    }
+
+    /**
+     * @ORM\prePersist
+     */
+    public function setExpiresAtValue()
+    {
+        $expiresAt = new \DateTime($this->getCreatedAt()->format('Y-m-d H:i:s'));
+        $expiresAt->add(new \DateInterval('P30D'));
+        $this->expiresAt = $expiresAt;
+    }
+
+    /**
+     * Get expiresAt
+     *
+     * @return datetime
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
     }
 
     /**
@@ -510,7 +572,116 @@ class Job
     }
 
     /**
-     * Standart string representation of object.
+     * Tells if job is already expired.
+     *
+     * @return Boolean
+     */
+    public function isExpired()
+    {
+        return $this->getDaysBeforeExpires() < 0;
+    }
+
+    /**
+     * Tells if the job is about to expire.
+     *
+     * @return Boolean
+     */
+    public function expiresSoon()
+    {
+        return $this->getDaysBeforeExpires() < 5;
+    }
+
+    /**
+     * Return
+     * @return Integer
+     */
+    public function getDaysBeforeExpires()
+    {
+        return ceil(($this->getExpiresAt()->format('U') - time()) / 86400);
+    }
+
+    /**
+     * Get the required parameters for the route "job_show"
+     *
+     * @return type
+     */
+    public function getShowRouteParameters()
+    {
+        return array(
+            'id'            => $this->getId(),
+            'company_slug'  => $this->getCompanySlug(),
+            'location_slug' => $this->getLocationSlug(),
+            'position_slug' => $this->getPositionSlug()
+        );
+    }
+
+    /**
+     * Upload related functions.
+     *
+     * @see http://symfony.com/doc/current/cookbook/doctrine/file_uploads.html
+     */
+    public function getAbsolutePath()
+    {
+        return null === $this->logo ? null : $this->getUploadRootDir(). '/'. $this->logo;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->logo ? null : $this->getUploadDir(). '/'. $this->logo;
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__. '/../../../../web/'. $this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads/jobs';
+    }
+
+   /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->logo) {
+
+            // Save the uploaded object so we can use it in the Upload function
+            $this->logoUploadedFile = $this->logo;
+
+            // Generate a unique logo file name but the correct extension
+            $this->logo = uniqid('job_', true). '.'. $this->logo->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->logoUploadedFile) {
+            return;
+        }
+
+        $this->logoUploadedFile->move($this->getUploadRootDir(), $this->logo);
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        $file = $this->getAbsolutePath();
+        if (!empty($file) && is_file($file)) {
+            unlink($file);
+        }
+    }
+
+    /**
+     * Standard string representation of object.
      *
      * @return String
      */

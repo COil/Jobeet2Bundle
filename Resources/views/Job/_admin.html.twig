@@ -1,0 +1,26 @@
+<div id="job_actions">
+    <h3>Admin</h3>
+    <ul>
+        {{ if job.isActivated }}
+            <li>{{ path('Edit', 'job_edit', job) }}</li>
+            <li>{{ path('Publish', 'job_edit', job) }}</li>
+        {{ endif }}
+            <li>{{ path('Delete', 'job_delete', job, array('method' => 'delete', 'confirm' => 'Are you sure?')) }}</li>
+            {{ if (job.getIsActivated: }}
+                <li{{ job.expiresSoon and print ' class="expires_soon"' }}>
+                {{ if (job.isExpired: }}
+                    Expired
+                {{ else: }}
+                    Expires in <strong>{{ echo job.daysBeforeExpires }}</strong> days
+                {{ endif }}
+                {{ if (job.expiresSoon): }}
+                    - <a href="">Extend</a> for another {{ app.parameter.app_active_days }} days
+                {{ endif }}
+                </li>
+        {{ else: }}
+                <li>
+                    [Bookmark this <a href="{{ path('job_show', job) }}">URL</a> to manage this job in the future.]
+                </li>
+        {{ endif }}
+    </ul>
+</div>

@@ -11,7 +11,6 @@ use COil\Jobeet2Bundle\Entity\Job;
 use COil\Jobeet2Bundle\Form\JobType;
 use COil\Jobeet2Bundle\Controller\Jobeet2Controller;
 
-
 /**
  * Job controller.
  *
@@ -22,26 +21,21 @@ class JobController extends Jobeet2Controller
     /**
      * Finds and displays a Job entity.
      *
-     * OLD__@Route("/{id}/show", name="job_show")
      * @Route("/job/{company_slug}/{location_slug}/{id}/{position_slug}", name="job_show")
      *
      * @Template()
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
+        $em     = $this->getDoctrine()->getEntityManager();
         $entity = $this->getRepo('Job')->findOneActive($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
-        //$deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'job'         => $entity
-            //'delete_form' => $deleteForm->createView()
+            'job' => $entity
         );
     }
 
@@ -54,11 +48,14 @@ class JobController extends Jobeet2Controller
     public function newAction()
     {
         $entity = new Job();
-        $form   = $this->createForm(new JobType(), $entity);
+        $jobType = new JobType();
+        $form = $this->createForm(new JobType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'fields' => $jobType->getFields(),
+            'helps'  => $jobType->getHelps()
         );
     }
 
@@ -75,22 +72,24 @@ class JobController extends Jobeet2Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new JobType(), $entity);
         $form->bindRequest($request);
-        //die(var_dump($form->isValid()));
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('job_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('job_show', $entity->getShowRouteParameters()));
 
         }
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'fields' => $jobType->getFields(),
+            'helps'  => $jobType->getHelps()
         );
     }
+
 
     /**
      * Displays a form to edit an existing Job entity.
@@ -112,9 +111,10 @@ class JobController extends Jobeet2Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
+            'form'   => $editForm->createView(),
+            'fields' => $jobType->getFields(),
+            'helps'  => $jobType->getHelps()
         );
     }
 
