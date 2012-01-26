@@ -41,8 +41,6 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
             $job->setIsActivated($columns['is_activated']);
             $job->setToken($columns['token']);
             $job->setEmail($columns['email']);
-            $job->setCreatedAt(new \DateTime(isset($columns['created_at']) ? $columns['created_at'] : null));
-            $job->setUpdatedAt(new \DateTime(isset($columns['updated_at']) ? $columns['updated_at'] : null));
 
             // Don't persiste the job_add fixture because its the reference job for duplication
             if ('job_add' != $reference)
@@ -52,6 +50,14 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
 
                 // Add a reference to be able to use this object in others loaders
                 $this->addReference('Job_'. $reference, $job);
+            }
+
+            // Force the expire date for this
+            if ('expired_job' == $reference)
+            {
+                $job->setExpiresAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
+                $manager->persist($job);
+                $manager->flush();
             }
         }
 

@@ -46,3 +46,7 @@ TO CHECK
 * Job form: check what is best place to put Job::getTypes() function, in the entity
   or in the repository class like Jobeet1 ?
 * Check the way activatedQueries() are built, it does not seem the cleanest DRY method
+
+NEXT COMMIT:
+------------
+

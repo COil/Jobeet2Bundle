@@ -55,6 +55,7 @@ Job:
         is_public:      true
         is_activated:   true
         created_at:     '2005-12-01 00:00:00'
+        updated_at:     '2005-12-15 00:00:00'
         expires_at:     '2005-12-31 00:00:00'
         token:          job_expired
         email:          job@example.com
