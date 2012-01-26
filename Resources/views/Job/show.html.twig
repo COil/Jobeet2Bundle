@@ -11,6 +11,10 @@
 
 {% block body %}
 
+{% if app.request.get('token')  == job.token %}
+    {% include 'Jobeet2Bundle:Job:_admin.html.twig' %}
+{% endif %}
+
 <div id="job">
   <h1>{{ job.company }}</h1>
   <h2>{{ job.location }}</h2>
@@ -22,8 +26,7 @@
   {% if job.logo %}
     <div class="logo">
       <a href="{{ job.url }}">
-        <img src="/uploads/jobs/{{ job.logo }}"
-          alt="{{ job.company }} logo" />
+        <img src="{{ asset(job.webPath) }}" alt="{{ job.company }} logo" />
       </a>
     </div>
   {% endif %}
@@ -40,11 +43,6 @@
     <small>posted on {{ job.createdAt | date("m/d/Y") }}</small>
   </div>
 
-  <div style="padding: 20px 0">
-    <a href="{{ path('job_edit', { id:job.id }) }}">
-      Edit
-    </a>
-  </div>
 </div>
 
 {% endblock %}

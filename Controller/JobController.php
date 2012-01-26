@@ -19,16 +19,16 @@ use COil\Jobeet2Bundle\Controller\Jobeet2Controller;
 class JobController extends Jobeet2Controller
 {
     /**
-     * Finds and displays a Job entity.
+     * Finds and displays a Job entity or any user.
      *
-     * @Route("/job/{company_slug}/{location_slug}/{id}/{position_slug}", name="job_show")
+     * @Route("/{company_slug}/{location_slug}/{id}/{position_slug}", name="job_show_user")
      *
-     * @Template()
+     * @Template("Jobeet2Bundle:Job:show.html.twig")
      */
-    public function showAction($id)
+    public function showUserAction($id)
     {
         $em     = $this->getDoctrine()->getEntityManager();
-        $entity = $this->getRepo('Job')->findOneActive($id);
+        $entity = $this->getRepo('Job')->findOneActiveById($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Job entity.');
@@ -40,6 +40,31 @@ class JobController extends Jobeet2Controller
     }
 
     /**
+     * Finds and displays a Job entity for the creator of the offer.
+     *
+     * @Route("/{token}/show", name="job_show")
+     *
+     * @Template()
+     */
+    public function showAction($token)
+    {
+        $em     = $this->getDoctrine()->getEntityManager();
+        $entity = $this->getRepo('Job')->findOneByToken($token);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Job entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($token);
+
+        return array(
+            'job'        => $entity,
+            'deleteForm' => $deleteForm->createView(),
+            'activeDays' => $this->getActiveDays()
+        );
+    }
+
+    /**
      * Displays a form to create a new Job entity.
      *
      * @Route("/new", name="job_new")
@@ -47,9 +72,9 @@ class JobController extends Jobeet2Controller
      */
     public function newAction()
     {
-        $entity = new Job();
+        $entity  = new Job();
         $jobType = new JobType();
-        $form = $this->createForm(new JobType(), $entity);
+        $form    = $this->createForm(new JobType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -70,7 +95,8 @@ class JobController extends Jobeet2Controller
     {
         $entity  = new Job();
         $request = $this->getRequest();
-        $form    = $this->createForm(new JobType(), $entity);
+        $jobType = new JobType();
+        $form    = $this->createForm($jobType, $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -78,7 +104,7 @@ class JobController extends Jobeet2Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('job_show', $entity->getShowRouteParameters()));
+            return $this->redirect($this->generateUrl('job_show', array('token' => $entity->getToken())));
 
         }
 
@@ -90,25 +116,24 @@ class JobController extends Jobeet2Controller
         );
     }
 
-
     /**
      * Displays a form to edit an existing Job entity.
      *
-     * @Route("/{id}/edit", name="job_edit")
+     * @Route("/{token}/edit", name="job_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($token)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entity = $em->getRepository('Jobeet2Bundle:Job')->find($id);
+        $entity = $em->getRepository('Jobeet2Bundle:Job')->findOneByToken($token);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
-        $editForm = $this->createForm(new JobType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $jobType = new JobType();
+        $editForm = $this->createForm($jobType, $entity);
+        $deleteForm = $this->createDeleteForm($token);
 
         return array(
             'entity' => $entity,
@@ -121,57 +146,58 @@ class JobController extends Jobeet2Controller
     /**
      * Edits an existing Job entity.
      *
-     * @Route("/{id}/update", name="job_update")
+     * @Route("/{token}/update", name="job_update")
      * @Method("post")
      * @Template("Jobeet2Bundle:Job:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($token)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entity = $em->getRepository('Jobeet2Bundle:Job')->find($id);
+        $entity = $em->getRepository('Jobeet2Bundle:Job')->findOneByToken($token);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
-        $editForm   = $this->createForm(new JobType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
-
+        $jobType    = new JobType();
+        $editForm   = $this->createForm($jobType, $entity);
+        $deleteForm = $this->createDeleteForm($token);
+        $request    = $this->getRequest();
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('job_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('job_show', array('token' => $entity->getToken())));
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+            'fields'    => $jobType->getFields(),
+            'helps'     => $jobType->getHelps()
         );
     }
 
     /**
      * Deletes a Job entity.
      *
-     * @Route("/{id}/delete", name="job_delete")
+     * @Route("/delete", name="job_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction()
     {
-        $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
+        $post    = $request->request->get('form');
+        $token   = $post['token'];
 
+        $form = $this->createDeleteForm($token);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('Jobeet2Bundle:Job')->find($id);
+            $entity = $em->getRepository('Jobeet2Bundle:Job')->findOneByToken($token);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Job entity.');
@@ -181,14 +207,57 @@ class JobController extends Jobeet2Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('job'));
+        return $this->redirect($this->generateUrl('home'));
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Form that can be used to delete the current Job entity.
+     *
+     * @param  String $token
+     * @return FormBuilder
+     */
+    private function createDeleteForm($token)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('Jobeet2Bundle:Job')->findOneByToken($token);
+
+        return $this->createFormBuilder(array('token' => $entity->getToken()))
+            ->add('token', 'hidden')
             ->getForm()
         ;
+    }
+
+    /**
+     * Publish a Job entity.
+     *
+     * @Route("/{token}/publish", name="job_publish")
+     * @Method("get")
+     */
+    public function publishAction($token)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('Jobeet2Bundle:Job')->findOneByToken($token);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Job entity.');
+        }
+
+        $entity->publish();
+        $em->persist($entity);
+        $em->flush();
+
+        $this->getRequest()->getSession()->setFlash('notice', sprintf('Your job is now online for %s days.', $this->getActiveDays()));
+
+        return $this->redirect($this->generateUrl('job_show_user', $entity->getShowRouteParameters()));
+    }
+
+    /**
+     * Shortcut.
+     *
+     * @return integer
+     */
+    protected function getActiveDays()
+    {
+        return $this->container->getParameter('jobeet2.active_days');
     }
 }

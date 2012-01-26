@@ -41,7 +41,6 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
             $job->setIsActivated($columns['is_activated']);
             $job->setToken($columns['token']);
             $job->setEmail($columns['email']);
-            //$job->setSlug($reference);       // TODO
             $job->setCreatedAt(new \DateTime(isset($columns['created_at']) ? $columns['created_at'] : null));
             $job->setUpdatedAt(new \DateTime(isset($columns['updated_at']) ? $columns['updated_at'] : null));
 

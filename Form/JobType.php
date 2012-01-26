@@ -66,7 +66,4 @@ class JobType extends AbstractType
     {
         return 'job';
     }
-
-
-
 }

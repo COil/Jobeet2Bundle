@@ -7,16 +7,8 @@
 
 {% block body %}
 
-<h1>Edit Job</h1>
+<h1>Edit job</h1>
 
-{% include 'Jobeet2Bundle:Job:_form.html.twig' with {'form': form, 'fields': fields } %}
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('home') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% include 'Jobeet2Bundle:Job:_form.html.twig' with { route: 'job_update' } %}
 
 {% endblock %}

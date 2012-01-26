@@ -1,26 +1,32 @@
+<form id="form_delete" action="{{ path('job_delete') }}" method="post" {{ form_enctype(deleteForm) }}>
+    {{ form_widget(deleteForm) }}
+</form>
+
 <div id="job_actions">
     <h3>Admin</h3>
     <ul>
-        {{ if job.isActivated }}
-            <li>{{ path('Edit', 'job_edit', job) }}</li>
-            <li>{{ path('Publish', 'job_edit', job) }}</li>
-        {{ endif }}
-            <li>{{ path('Delete', 'job_delete', job, array('method' => 'delete', 'confirm' => 'Are you sure?')) }}</li>
-            {{ if (job.getIsActivated: }}
-                <li{{ job.expiresSoon and print ' class="expires_soon"' }}>
-                {{ if (job.isExpired: }}
+        {% if not job.isActivated %}
+            <li><a href="{{ path('job_edit', { token:job.token }) }}">Edit</a></li>
+            <li><a href="{{ path('job_publish', { token:job.token }) }}">Publish</a></li>
+        {% endif %}
+        <li>
+          <a onclick="if (confirm('Are you sure?')) { document.getElementById('form_delete').submit(); }" href="javascript:void(0);">Delete</a>
+        </li>
+        {% if job.isActivated %}
+            <li{% if job.expiresSoon %} class="expires_soon"{% endif %}>
+                {% if job.isExpired %}
                     Expired
-                {{ else: }}
-                    Expires in <strong>{{ echo job.daysBeforeExpires }}</strong> days
-                {{ endif }}
-                {{ if (job.expiresSoon): }}
-                    - <a href="">Extend</a> for another {{ app.parameter.app_active_days }} days
-                {{ endif }}
-                </li>
-        {{ else: }}
-                <li>
-                    [Bookmark this <a href="{{ path('job_show', job) }}">URL</a> to manage this job in the future.]
-                </li>
-        {{ endif }}
+                {% else %}
+                    Expires in <strong>{{ job.daysBeforeExpires }}</strong> days
+                {% endif %}
+                {% if job.expiresSoon %}
+                    - <a href="{# path('job_extend', { token:job.token }) #}">Extend</a> for another {{ activeDays }} days
+                {% endif %}
+            </li>
+        {% else %}
+            <li>
+                [Bookmark this <a href="{{ path('job_show', { token:job.token }) }}">URL</a> to manage this job in the future.]
+            </li>
+        {% endif %}
     </ul>
 </div>

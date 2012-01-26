@@ -1,4 +1,10 @@
-<form action="{{ path('job_create') }}" method="post" {{ form_enctype(form) }}>
+{% if route == 'job_update' %}
+    {% set action = path(route, { token: entity.token }) %}
+{% else %}
+    {% set action = path(route) %}
+{% endif %}
+
+<form action="{{ action }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
     <table id="job_form">
         <tfoot>
@@ -13,13 +19,11 @@
                 <tr>
                     <th>{{ form_label(form[field]) }}</th>
                     <td>
-                        {% if helps[field] is defined %}
-                            {{ form_widget(form[field]) }}<br/>
-                            {{ helps[field] }}
-                        {% else %}
-                            {{ form_widget(form[field]) }}
-                        {% endif %}
+                        {{ form_widget(form[field]) }}
                         {{ form_errors(form[field]) }}
+                        {% if helps[field] is defined %}
+                            <br/>{{ helps[field] }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

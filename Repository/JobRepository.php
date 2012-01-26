@@ -13,7 +13,6 @@ class JobRepository extends EntityRepository
      */
     public function findAllActiveJobs($q = null, $returnQuery = false)
     {
-
         if (is_null($q))
         {
             $q = $this->createQueryBuilder('j');
@@ -22,6 +21,8 @@ class JobRepository extends EntityRepository
         $q = $q
             ->andWhere('j.expiresAt > :expiresAt')
             ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
+            ->andWhere('j.isActivated = :isActivated')
+            ->setParameter('isActivated', true)
             ->orderBy('j.expiresAt', 'DESC')
             ->getQuery()
         ;
@@ -34,11 +35,31 @@ class JobRepository extends EntityRepository
      *
      * @return COil\Jobeet2Bundle\Entity\Job
      */
-    public function findOneActive($id)
+    public function findOneActiveById($id)
     {
         $q = $this->createQueryBuilder('j')
             ->where('j.id = :id')
             ->setParameter('id', $id)
+            ->andWhere('j.expiresAt > :expiresAt')
+            ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
+            ->andWhere('j.isActivated = :isActivated')
+            ->setParameter('isActivated', true)
+            ->getQuery()
+        ;
+
+        return $q->getOneOrNullResult();
+    }
+
+    /**
+     * Returns an active job only.
+     *
+     * @return COil\Jobeet2Bundle\Entity\Job
+     */
+    public function findOneActiveByToken($token)
+    {
+        $q = $this->createQueryBuilder('j')
+            ->where('j.token = :token')
+            ->setParameter('token', $token)
             ->andWhere('j.expiresAt > :expiresAt')
             ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
             ->getQuery()
@@ -60,6 +81,6 @@ class JobRepository extends EntityRepository
             ->getQuery()
         ;
 
-        return $q->getSingleResult();
+        return $q->getOneOrNullResult();
     }
 }

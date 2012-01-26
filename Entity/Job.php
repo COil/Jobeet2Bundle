@@ -166,7 +166,7 @@ class Job
     /**
      * Set type
      *
-     * @param string $'type'''
+     * @param string $type
      */
     public function setType($type)
     {
@@ -646,7 +646,8 @@ class Job
      */
     public function preUpload()
     {
-        if (null !== $this->logo) {
+        // Make a string test for fixtures loading
+        if (null !== $this->logo && !is_string($this->logo)) {
 
             // Save the uploaded object so we can use it in the Upload function
             $this->logoUploadedFile = $this->logo;
@@ -678,6 +679,14 @@ class Job
         if (!empty($file) && is_file($file)) {
             unlink($file);
         }
+    }
+
+    /**
+     * Flag the job as published.
+     */
+    public function publish()
+    {
+        $this->setIsActivated(true);
     }
 
     /**
