@@ -52,10 +52,12 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
                 $this->addReference('Job_'. $reference, $job);
             }
 
-            // Force the expire date for this
+            // Force the date fields for this "expired and old" job offer
             if ('expired_job' == $reference)
             {
                 $job->setExpiresAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
+                $job->setCreatedAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
+                $job->setUpdatedAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
                 $manager->persist($job);
                 $manager->flush();
             }

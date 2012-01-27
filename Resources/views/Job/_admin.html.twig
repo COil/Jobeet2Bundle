@@ -20,7 +20,7 @@
                     Expires in <strong>{{ job.daysBeforeExpires }}</strong> days
                 {% endif %}
                 {% if job.expiresSoon %}
-                    - <a href="{# path('job_extend', { token:job.token }) #}">Extend</a> for another {{ activeDays }} days
+                    - <a href="{{ path('job_extend', { token:job.token }) }}">Extend</a> for another {{ activeDays }} days
                 {% endif %}
             </li>
         {% else %}

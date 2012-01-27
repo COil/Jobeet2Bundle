@@ -690,6 +690,23 @@ class Job
     }
 
     /**
+     * Extends the Job validity and visibility.
+     *
+     * @return Boolean
+     */
+    public function extend($activeDays)
+    {
+        if (!$this->expiresSoon())
+        {
+            return false;
+        }
+
+        $this->setExpiresAt(new \DateTime(date('Y-m-d', time() + 86400 * $activeDays)));
+
+        return true;
+    }
+
+    /**
      * Standard string representation of object.
      *
      * @return String

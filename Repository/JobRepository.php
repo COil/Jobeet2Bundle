@@ -83,4 +83,23 @@ class JobRepository extends EntityRepository
 
         return $q->getOneOrNullResult();
     }
+
+    /**
+     * Delete never published job offers which will never be visible.
+     *
+     * @param integer $days
+     * @return type
+     */
+    public function cleanup($days)
+    {
+        $q = $this->createQueryBuilder('j')
+            ->delete()
+            ->andWhere('j.isActivated = :isActivated')
+            ->setParameter('isActivated', false)
+            ->andWhere('j.createdAt < :createdAt')
+            ->setParameter('createdAt', date('Y-m-d', time() - 86400 * $days))
+        ;
+
+        return $q->getQuery()->execute();
+    }
 }

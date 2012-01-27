@@ -252,6 +252,30 @@ class JobController extends Jobeet2Controller
     }
 
     /**
+     * Extends a Job offer.
+     *
+     * @Route("/{token}/extend", name="job_extend")
+     * @Method("get")
+     */
+    public function extendAction($token)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('Jobeet2Bundle:Job')->findOneByToken($token);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Job entity.');
+        }
+
+        $entity->extend($this->getActiveDays());
+        $em->persist($entity);
+        $em->flush();
+
+        $this->getRequest()->getSession()->setFlash('notice', sprintf('Your job validity has been extended until %s.', $entity->getExpiresAt()->format('m/d/Y')));
+
+        return $this->redirect($this->generateUrl('job_show_user', $entity->getShowRouteParameters()));
+    }
+
+    /**
      * Shortcut.
      *
      * @return integer
