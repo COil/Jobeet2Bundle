@@ -57,7 +57,7 @@ class CategoryRepository extends EntityRepository
             $q->setMaxResults($maxResults);
         }
 
-        return $returnQuery ? $q : $repo->findAllActiveJobs($q);
+        return $returnQuery ? $repo->findAllActiveJobs($q, true) : $repo->findAllActiveJobs($q);
     }
 
     /**
@@ -71,6 +71,8 @@ class CategoryRepository extends EntityRepository
         $q->leftJoin('c.jobs', 'j')
             ->andWhere('j.expiresAt > :expiresAt')
             ->setParameter('expiresAt', date('Y-m-d H:i:s', time()))
+            ->andWhere('j.isActivated = :isActivated')
+            ->setParameter('isActivated', true)
             ->addOrderBy('c.name', 'ASC')
             ->addOrderBy('j.createdAt', 'DESC');
         ;

@@ -12,33 +12,26 @@ I will gain experience with Symfony2.
 
 No tutorial here, just code ! :)
 
-See you. COil :)
+See you. [COil](http://www.strangebuzz.com) :)
 
 INFOS
 -----
 
-Additional bundles used:
+Additional Symfony2 bundles used:
 
-* doctrine-fixtures
-* DoctrineFixturesBundle
-* knp-components
-* KnpPaginatorBundle
+* DoctrineFixturesBundle (use doctrine-fixtures)
+* KnpPaginatorBundle (use knp-components)
 
 TODO
 ----
 
-* Use the DoctrineExtension bundle to hanlde timestamble and sluggable behaviors
-  --> Is it really necessary as using doctrine lifecycle callback works pretty well ?
-* Use the @ParamConverter to retrieve job objects
 
 PROBLEMS
 --------
 
 * Inheritance and theming of form blocks does not seem to work well, to try later...
   I'd like to use the for_widget(form) like Jobeet1 but only with modifying the blocks:
-  'field_row', 'form_widget' and 'field_widget' [doc|http://symfony.com/doc/current/cookbook/form/form_customization.html]
-* Tests does not work because there is no more expired job loaded by the fixtures
-  --> The expire date is overrided, force this date afterward
+  'field_row', 'form_widget' and 'field_widget' ([doc](http://symfony.com/doc/current/cookbook/form/form_customization.html))
 
 TO CHECK
 --------
@@ -47,6 +40,12 @@ TO CHECK
   or in the repository class like Jobeet1 ?
 * Check the way activatedQueries() are built, it does not seem the cleanest DRY method
 
+REFACTORING / CLEANUP / OPTIMISATIONS
+-------------------------------------
+
+* Use the DoctrineExtension bundle to hanlde timestamble and sluggable behaviors
+  --> Is it really necessary as using doctrine lifecycle callback works pretty well ?
+* Use the @ParamConverter to retrieve job objects
+
 NEXT COMMIT:
 ------------
-

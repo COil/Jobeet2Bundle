@@ -43,6 +43,7 @@ class Job
      * @var string $company
      *
      * @ORM\Column(name="company", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
      */
     private $company;
 
@@ -79,6 +80,7 @@ class Job
      * @var string $location
      *
      * @ORM\Column(name="location", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
      */
     private $location;
 
@@ -86,6 +88,7 @@ class Job
      * @var text $description
      *
      * @ORM\Column(name="description", type="text", nullable=false)
+     * @Assert\NotBlank
      */
     private $description;
 
@@ -93,6 +96,7 @@ class Job
      * @var text $howToApply
      *
      * @ORM\Column(name="how_to_apply", type="text", nullable=false)
+     * @Assert\NotBlank
      */
     private $howToApply;
 
@@ -115,12 +119,14 @@ class Job
      *
      * @ORM\Column(name="is_activated", type="boolean", nullable=true)
      */
-    private $isActivated;
+    private $isActivated = false;
 
     /**
      * @var string $email
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     private $email;
 

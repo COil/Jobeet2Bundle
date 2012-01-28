@@ -131,6 +131,10 @@ class JobController extends Jobeet2Controller
             throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
+        if ($entity->getIsActivated()) {
+            throw $this->createNotFoundException('A published job cannot be edited anymore.');
+        }
+
         $jobType = new JobType();
         $editForm = $this->createForm($jobType, $entity);
         $deleteForm = $this->createDeleteForm($token);
@@ -264,6 +268,10 @@ class JobController extends Jobeet2Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Job entity.');
+        }
+
+        if (!$entity->expiresSoon()) {
+            throw $this->createNotFoundException('It is not allowed to extend a job that is not about to expire.');
         }
 
         $entity->extend($this->getActiveDays());

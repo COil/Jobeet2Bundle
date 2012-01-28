@@ -31,11 +31,10 @@ class JobType extends AbstractType
         $builder->add('url', 'url');
         $builder->add('position');
         $builder->add('location');
-        $builder->add('description');
+        $builder->add('description', null, array('required' => true));
         $builder->add('howToApply', null, array('label' => 'How to apply ?'));
         $builder->add('isPublic', null, array('label' => 'Is public ?'));
         $builder->add('email', 'email');
-
     }
 
     public function getFields()

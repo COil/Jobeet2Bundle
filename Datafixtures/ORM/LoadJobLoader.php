@@ -3,6 +3,7 @@
 namespace COil\Jobeet2Bundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use COil\Jobeet2Bundle\DataFixtures\ORM\LoadJobeet2Data;
 use COil\Jobeet2Bundle\Entity\Job as Job;
@@ -12,9 +13,9 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
     /**
      * Main load function.
      *
-     * @param type $manager
+     * @param Doctrine\Common\Persistence\ObjectManager $manager
      */
-    public function load($manager)
+    function load(ObjectManager $manager)
     {
         $jobs = $this->getModelFixtures();
 
@@ -57,7 +58,6 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
             {
                 $job->setExpiresAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
                 $job->setCreatedAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
-                $job->setUpdatedAt(new \DateTime(isset($columns['created_at']) ? $columns['expires_at'] : null));
                 $manager->persist($job);
                 $manager->flush();
             }
@@ -70,7 +70,8 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
     /**
      * Add addtional Jobs so we can test record limits and pagers.
      *
-     * @param type $job
+     * @param Doctrine\ORM\EntityManager $manager
+     * @param Job $job
      */
     protected function duplicateLastJob($manager, $job)
     {
@@ -86,7 +87,7 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
     }
 
     /**
-     * The main fixtures files for this loader.
+     * The main fixtures file for this loader.
      */
     public function getModelFile()
     {

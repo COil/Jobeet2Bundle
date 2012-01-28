@@ -1,3 +1,4 @@
+
 [DoctrineBundle]
     git=http://github.com/doctrine/DoctrineBundle.git
     target=/bundles/Doctrine/Bundle/DoctrineBundle
@@ -15,3 +16,7 @@
 [KnpPaginatorBundle]
     git=http://github.com/KnpLabs/KnpPaginatorBundle.git
     target=bundles/Knp/Bundle/PaginatorBundle
+
+[ToolsBundle]
+    git=git@github.com:COil/ToolsBundle.git
+    target=bundles/COil/ToolsBundle

@@ -1,5 +1,6 @@
-<form id="form_delete" action="{{ path('job_delete') }}" method="post" {{ form_enctype(deleteForm) }}>
+<form style="display:none" id="form_delete" action="{{ path('job_delete') }}" method="post" {{ form_enctype(deleteForm) }}>
     {{ form_widget(deleteForm) }}
+    <button type="submit">Delete</button>
 </form>
 
 <div id="job_actions">

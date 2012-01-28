@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-
 abstract class LoadJobeet2Data extends AbstractFixture implements ContainerAwareInterface
 {
     /**

@@ -3,6 +3,7 @@
 namespace COil\Jobeet2Bundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use COil\Jobeet2Bundle\DataFixtures\ORM\LoadJobeet2Data;
 use COil\Jobeet2Bundle\Entity\Category as Category;
@@ -12,9 +13,9 @@ class LoadCategoryData extends LoadJobeet2Data implements OrderedFixtureInterfac
     /**
      * Main load function.
      *
-     * @param type $manager
+     * @param Doctrine\Common\Persistence\ObjectManager $manager
      */
-    public function load($manager)
+    function load(ObjectManager $manager)
     {
         $categories = $this->getModelFixtures();
 
@@ -23,20 +24,19 @@ class LoadCategoryData extends LoadJobeet2Data implements OrderedFixtureInterfac
         {
             $category = new Category();
             $category->setName($columns['name']);
-            $category->setSlug($reference);         // TODO
-            $category->setCreatedAt(new \DateTime); // TODO
-            $category->setUpdatedAt(new \DateTime); // TODO
+            $category->setSlug($reference);
+            $category->setCreatedAt(new \DateTime());
+            $category->setUpdatedAt(new \DateTime());
             $manager->persist($category);
             $manager->flush();
 
-            // Add a reference to be able to use this object in others loaders
-            // In this case: JobLoader
+            // Add a reference to be able to use this object in others entities loaders
             $this->addReference('Category_'. $reference, $category);
         }
     }
 
     /**
-     * The main fixtures files for this loader.
+     * The main fixtures file for this loader.
      */
     public function getModelFile()
     {

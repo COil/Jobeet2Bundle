@@ -33,7 +33,7 @@ class CategoryControllerTest extends WebTestCase
         $this->assertEquals($crawler->filter('.jobs tr')->count(), $maxJobsOnCategoryPage);
 
         // 1.4 - The job list is paginated
-        $this->assertRegExp('/<strong>33<\/strong>/', $client->getResponse()->getContent());
+        $this->assertRegExp('/<strong>32<\/strong>/', $client->getResponse()->getContent());
         $this->assertRegExp('/<strong>1\/2<\/strong>/', $client->getResponse()->getContent());
 
         // 1.5 - We can access the second page with the pager
