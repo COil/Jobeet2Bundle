@@ -18,7 +18,6 @@ class HomeController extends Jobeet2Controller
         $this->getDoctrine();
 
         $route = $this->getRequest()->get('_route');
-        //$this->container->get('coil.tools.debug')->dump($route, '$route', 1);
 
         $categoryRepo = $this->getRepo('Category');
 

@@ -5,11 +5,15 @@ namespace COil\Jobeet2Bundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\QueryBuilder;
 
+use COil\Jobeet2Bundle\Lib\Jobeet as Jobeet;
+use \DateTime as DateTime;
+
 /**
  * COil\Jobeet2Bundle\Entity\Category
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="COil\Jobeet2Bundle\Repository\CategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -136,6 +140,17 @@ class Category
     }
 
     /**
+     * Set token automatically.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setSlugValue()
+    {
+        $this->slug = Jobeet::slugify($this->name);
+    }
+
+    /**
      * Get slug
      *
      * @return string
@@ -156,6 +171,14 @@ class Category
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new DateTime();
+    }
+
+    /**
      * Get createdAt
      *
      * @return datetime
@@ -173,6 +196,15 @@ class Category
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new DateTime();
     }
 
     /**

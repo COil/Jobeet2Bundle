@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use COil\Jobeet2Bundle\Entity\Category;
 use COil\Jobeet2Bundle\Controller\Jobeet2Controller;
 
-
 /**
  * Category controller.
  *

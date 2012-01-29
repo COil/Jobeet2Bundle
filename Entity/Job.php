@@ -362,7 +362,7 @@ class Job
     /**
      * Set token automatically.
      *
-     * @ORM\prePersist
+     * @ORM\PrePersist
      * @param string $token
      */
     public function setTokenValue()
@@ -451,7 +451,7 @@ class Job
     }
 
     /**
-     * @ORM\prePersist
+     * @ORM\PrePersist
      */
     public function setCreatedAtValue()
     {
@@ -479,7 +479,7 @@ class Job
     }
 
     /**
-     * @ORM\prePersist
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
@@ -508,7 +508,7 @@ class Job
     }
 
     /**
-     * @ORM\prePersist
+     * @ORM\PrePersist
      */
     public function setExpiresAtValue()
     {
