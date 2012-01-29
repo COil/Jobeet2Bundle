@@ -22,6 +22,7 @@ class CategoryAdmin extends Admin
     protected function configureShowField(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('id')
             ->add('name')
             ->add('slug')
             ->add('createdAt')
@@ -40,13 +41,6 @@ class CategoryAdmin extends Admin
             ->with('General')
                 ->add('name')
             ->end()
-//            ->with('Jobs')
-//                ->add('jobs', 'sonata_type_model')
-//            ->end()
-//            ->with('System Information', array('collapsed' => false))
-//                ->add('createdAt')
-//                ->add('updatedAt')
-//            ->end()
         ;
     }
 
@@ -61,8 +55,8 @@ class CategoryAdmin extends Admin
             ->addIdentifier('id')
             ->add('name')
             ->add('slug')
-//            ->add('createdAt')
-//            ->add('updatedAt')
+//            ->add('createdAt', 'doctrine_orm_string')  // Date type not implementer yet
+//            ->add('updatedAt', 'doctrine_orm_string')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'view' => array(),
@@ -84,9 +78,8 @@ class CategoryAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('slug')
-//            ->add('createdAt')
-//            ->add('updatedAt')
-            //->add('tags', null, array('field_options' => array('expanded' => true, 'multiple' => true)))
+//            ->add('createdAt', 'doctrine_orm_string')
+//            ->add('updatedAt', 'doctrine_orm_string')
         ;
     }
 }
