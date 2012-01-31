@@ -4,7 +4,7 @@
         <ul>
             {% for i, job in jobs %}
                 <li>
-                    <a href="{{ path('job_show_user', { id:job.id, company_slug:job.companySlug, location_slug:job.locationSlug, position_slug:job.positionSlug }) }}">
+                    <a href="{{ path('job_show_user', job.showRouteParameters) }}">
                         {{ job.position }} - {{ job.company }}
                     </a>
                 </li>
