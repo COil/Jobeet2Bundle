@@ -34,6 +34,10 @@ class JobController extends Jobeet2Controller
             throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
+        $this->addJobToHistory($entity);
+//        $jobs = $this->getJobHistory();
+//        $this->get('coil.tools.debug')->dump($jobs, '$jobs', 1);
+
         return array(
             'job' => $entity
         );
@@ -281,6 +285,18 @@ class JobController extends Jobeet2Controller
         $this->getRequest()->getSession()->setFlash('notice', sprintf('Your job validity has been extended until %s.', $entity->getExpiresAt()->format('m/d/Y')));
 
         return $this->redirect($this->generateUrl('job_show_user', $entity->getShowRouteParameters()));
+    }
+
+    /**
+     * Embedded action to jobs history.
+     *
+     * @return Response
+     */
+    public function historyAction()
+    {
+        $jobs = $this->getJobHistory();
+
+        return $this->render('Jobeet2Bundle:Job:_history.html.twig', array('jobs' => $jobs));
     }
 
     /**

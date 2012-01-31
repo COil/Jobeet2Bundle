@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="job")
  * @ORM\Entity(repositoryClass="COil\Jobeet2Bundle\Repository\JobRepository")
  * @ORM\HasLifecycleCallbacks()
- * @internal
  */
 class Job
 {

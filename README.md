@@ -1,7 +1,7 @@
 Jobeet2
 =======
 
-This Jobeet2 tutorial actually works wiyh Symfony2 standard edition: *2.0.9*
+This Jobeet2 tutorial actually works with Symfony2 standard edition: *2.0.9*
 
 All the code was done by me and I didn't cheat on other implementations so the code
 may vary with what you will find on other Jobeet2 repositories.
@@ -14,38 +14,55 @@ No tutorial here, just code ! :)
 
 See you. [COil](http://www.strangebuzz.com) :)
 
-INFOS
+
+Infos
 -----
 
 Additional Symfony2 bundles used:
 
+### For the frontend
+
 * DoctrineFixturesBundle (use doctrine-fixtures)
 * KnpPaginatorBundle (use knp-components)
 
-TODO
+### For the backend
+
+* SonatajQueryBundle
+* SonataUserBundle
+* SonataAdminBundle
+* KnpMenuBundle
+* KnpMenu
+* SonataDoctrineORMAdminBundle
+
+
+Todo
 ----
 
+### Chap12
+* Apply the Jobeet2 admin theme
+* Check the problem with the company field (https://github.com/sonata-project/SonataAdminBundle/issues/524)
 
-PROBLEMS
+
+Problems
 --------
 
 * Inheritance and theming of form blocks does not seem to work well, to try later...
   I'd like to use the for_widget(form) like Jobeet1 but only with modifying the blocks:
   'field_row', 'form_widget' and 'field_widget' ([doc](http://symfony.com/doc/current/cookbook/form/form_customization.html))
 
-TO CHECK
---------
+
+To check / Best practices
+-------------------------
 
 * Job form: check what is best place to put Job::getTypes() function, in the entity
   or in the repository class like Jobeet1 ?
 * Check the way activatedQueries() are built, it does not seem the cleanest DRY method
 
-REFACTORING / CLEANUP / OPTIMISATIONS
--------------------------------------
+
+Rafactoring / Cleanup / Optimisation
+------------------------------------
 
 * Use the DoctrineExtension bundle to hanlde timestamble and sluggable behaviors
   --> Is it really necessary as using doctrine lifecycle callback works pretty well ?
-* Use the @ParamConverter to retrieve job objects
+* Use the @ParamConverter to retrieve job objects in the Job and Category controllers
 
-NEXT COMMIT:
-------------
