@@ -1,6 +1,15 @@
 #!/bin/bash
-# Update the database and load fixtures (to modify in order to make a clean drop/create table
-# and enabling UTF8
+# Modify the script so the database is not dropped every time
 clear;
-php app/console doctrine:schema:update --force
-php app/console doctrine:fixtures:load
+echo "-- Jobeet2, reinitialization script --"
+echo "- Re-initializing schema..."
+php app/console doctrine:schema:update --force --env=$1
+echo "- Loading fixtures..."
+php app/console doctrine:fixtures:load --env=$1
+echo "- Deleting logos..."
+rm ./web/uploads/jobs/job_*
+echo "- Deleting cache..."
+rm -rf ./app/cache/*
+echo "- Deleting logs..."
+rm -rf ./app/logs/*
+echo "- Done !"
