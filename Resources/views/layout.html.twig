@@ -70,7 +70,9 @@
                </div>
             {% endif %}
 
-            {% render "Jobeet2Bundle:Job:history" %}
+            {# render "Jobeet2Bundle:Job:history" #}
+            {% render 'Jobeet2Bundle:Job:history' with {}, {'standalone': true} %}
+            <!-- esi:include src="{# path('job_history') #}" /-->
 
             <div class="content">
                 {% block body %}{% endblock %}

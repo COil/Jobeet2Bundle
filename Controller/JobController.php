@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 use COil\Jobeet2Bundle\Entity\Job;
 use COil\Jobeet2Bundle\Form\JobType;
@@ -35,8 +36,23 @@ class JobController extends Jobeet2Controller
         }
 
         $this->addJobToHistory($entity);
-//        $jobs = $this->getJobHistory();
-//        $this->get('coil.tools.debug')->dump($jobs, '$jobs', 1);
+
+        // Caching
+//        $response = new Response();
+//        $etag = $entity->computeETag();
+//        $response->setETag($entity->computeETag());
+//        $response->setLastModified($entity->getUpdatedAt());
+//        $response->setPublic();
+//        if ($response->isNotModified($this->getRequest())) {
+//
+//            // return the 304 Response immediately
+//            return $response;
+//        }
+//        return $this->render(
+//            'Jobeet2Bundle:Job:show.html.twig',
+//            array('job' => $entity),
+//            $response
+//        );
 
         return array(
             'job' => $entity
@@ -290,13 +306,18 @@ class JobController extends Jobeet2Controller
     /**
      * Embedded action to jobs history.
      *
+     * @Route("/history", name="job_history")
+     *
      * @return Response
      */
     public function historyAction()
     {
         $jobs = $this->getJobHistory();
 
-        return $this->render('Jobeet2Bundle:Job:_history.html.twig', array('jobs' => $jobs));
+        $response = $this->render('Jobeet2Bundle:Job:_history.html.twig', array('jobs' => $jobs));
+        $response->setSharedMaxAge(10);
+
+        return $response;
     }
 
     /**

@@ -3,8 +3,3 @@ parameters:
     jobeet2.active_days:               30
     jobeet2.max_jobs_on_homepage:      10
     jobeet2.max_jobs_on_category:      20
-
-services:
-#    jobeet2.example:
-#        class: %jobeet2.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

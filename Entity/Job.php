@@ -131,21 +131,21 @@ class Job
     private $email;
 
     /**
-     * @var datetime $expiresAt
+     * @var DateTime $expiresAt
      *
      * @ORM\Column(name="expires_at", type="datetime", nullable=false)
      */
     private $expiresAt;
 
     /**
-     * @var datetime $createdAt
+     * @var DateTime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
     private $createdAt;
 
     /**
-     * @var datetime $updatedAt
+     * @var DateTime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
@@ -443,7 +443,7 @@ class Job
     /**
      * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param DateTime $createdAt
      */
     public function setCreatedAt($createdAt)
     {
@@ -461,7 +461,7 @@ class Job
     /**
      * Get createdAt
      *
-     * @return datetime
+     * @return DateTime
      */
     public function getCreatedAt()
     {
@@ -471,7 +471,7 @@ class Job
     /**
      * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param DateTime $updatedAt
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -490,7 +490,7 @@ class Job
     /**
      * Get updatedAt
      *
-     * @return datetime
+     * @return DateTime
      */
     public function getUpdatedAt()
     {
@@ -500,7 +500,7 @@ class Job
     /**
      * Set expiresAt
      *
-     * @param datetime $expiresAt
+     * @param DateTime $expiresAt
      */
     public function setExpiresAt($expiresAt)
     {
@@ -520,7 +520,7 @@ class Job
     /**
      * Get expiresAt
      *
-     * @return datetime
+     * @return DateTime
      */
     public function getExpiresAt()
     {
@@ -625,22 +625,38 @@ class Job
      * Upload related functions.
      *
      * @see http://symfony.com/doc/current/cookbook/doctrine/file_uploads.html
+     * @return String
      */
     public function getAbsolutePath()
     {
         return null === $this->logo ? null : $this->getUploadRootDir(). '/'. $this->logo;
     }
 
+    /**
+     * Get public webpath for object.
+     *
+     * @return String
+     */
     public function getWebPath()
     {
         return null === $this->logo ? null : $this->getUploadDir(). '/'. $this->logo;
     }
 
+    /**
+     * Get physicali main upload dir for object type.
+     *
+     * @return String
+     */
     protected function getUploadRootDir()
     {
         return __DIR__. '/../../../../web/'. $this->getUploadDir();
     }
 
+    /**
+     * Get relative upload dir for object.
+     *
+     * @return String
+     */
     protected function getUploadDir()
     {
         return 'uploads/jobs';
@@ -710,6 +726,16 @@ class Job
         $this->setExpiresAt(new \DateTime(date('Y-m-d', time() + 86400 * $activeDays)));
 
         return true;
+    }
+
+    /**
+     * Compute the etag in order to cache content related to the object.
+     *
+     * @return String
+     */
+    public function computeETag()
+    {
+        return md5('job_'. $this->id);
     }
 
     /**

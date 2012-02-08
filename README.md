@@ -39,15 +39,12 @@ Database
 
 You can find the MySQLWorkbench schema of the database in __/Resources/doc/jobeet2.mwb__
 
-
 Todo
 ----
 
 ### Chap12
-* Apply the Jobeet2 admin theme
-* Add a security rule to access /admin/dashboard
 * Check the problem with the company field (https://github.com/sonata-project/SonataAdminBundle/issues/524)
-* Check the problem with the SonataAdminBundle translations not displayed
+* Check the problem with the SonataAdminBundle translations not displayed (upgragde bundle)
 
 
 Problems
@@ -72,3 +69,13 @@ Rafactoring / Cleanup / Optimisation
 * Use the DoctrineExtension bundle to hanlde timestamble and sluggable behaviors
   --> Is it really necessary as using doctrine lifecycle callback works pretty well ?
 * Use the @ParamConverter to retrieve job objects in the Job and Category controllers
+
+Asset / style optimisations
+---------------------------
+
+### Generic
+* Compress images with Google page speed
+* Convert at the right scale the Symfony2 logo (98% optimisation !!)
+
+### Chap12
+* Apply a Jobeet2 admin theme
