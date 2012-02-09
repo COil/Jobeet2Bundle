@@ -92,4 +92,17 @@ class CategoryRepository extends EntityRepository
 
         return $job ? $job[0] : null;
     }
+
+    /**
+     * Get the latest Job for the category.
+     *
+     * @param Integer $id
+     * @return Job
+     */
+    public function getLatestPost($id)
+    {
+        $lastestJob = $this->getActiveJobs($id, 1);
+
+        return $lastestJob ? $lastestJob[0] : null;
+    }
 }

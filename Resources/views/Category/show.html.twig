@@ -10,13 +10,13 @@
 {% block body %}
 <div class="category">
   <div class="feed">
-    <a href="">Feed</a>
+    <a href="{{ path('category_feed', { slug: category.slug, '_format': 'atom'}) }}">Feed</a>
   </div>
   <h1>{{ category.name }}</h1>
 </div>
 
 {% include 'Jobeet2Bundle:Job:_list.html.twig'  with {'category': category} %}
 
-{{ pager.render() | raw }}
+{{ pager.render()|raw }}
 
 {% endblock %}

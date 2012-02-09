@@ -11,14 +11,12 @@ class HomeController extends Jobeet2Controller
 {
     /**
      * @Route("/", name="home")
+     * @Route("/job.{_format}", name="job_feed")
      * @Template()
      */
     public function indexAction()
     {
-        $this->getDoctrine();
-
         $route = $this->getRequest()->get('_route');
-
         $categoryRepo = $this->getRepo('Category');
 
         // Parameter to limit the number of returned results
@@ -34,9 +32,13 @@ class HomeController extends Jobeet2Controller
             $category->setCountActiveJobs($categoryRepo->countActiveJobs($category->getId()));
         }
 
-        return array(
+        // Render the template with the good format
+        $format = $this->getRequest()->getRequestFormat();
+
+        return $this->render('Jobeet2Bundle:Home:index.'. $format. '.twig', array(
             'categories'        => $categories,
-            'maxJobsOnHomepage' => $maxJobsOnHomepage
-        );
+            'maxJobsOnHomepage' => $maxJobsOnHomepage,
+            'latestPost'        => $this->getRepo('Job')->getLatestPost()
+        ));
     }
 }

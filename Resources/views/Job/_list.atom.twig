@@ -1,0 +1,33 @@
+{% if pager is not defined %}
+    {% set pager = category.activeJobs %}
+{% endif %}
+{% for i, job in pager %}
+    <entry>
+        <title>{{ job.position }} ({{ job.location }})</title>
+        <link href="{{ path('job_show_user', job.showRouteParameters) }}" />
+        <id>{{ job.id|sha1 }}</id>
+        <updated>{{ job.updatedAt|date('Y-m-d H:M:Z') }}</updated>
+        <summary type="xhtml">
+            <div xmlns="http://www.w3.org/1999/xhtml">
+{% if job.logo %}
+                <div>
+                    <a href="{{ job.url }}">
+                        <img src="{{ app.request.scheme ~ '://' ~ app.request.host }}{{ asset(job.webPath) }}"
+                            alt="{{ job.company }} logo" />
+                    </a>
+                </div>
+{% endif %}
+                <div>
+                    {{ job.description|nl2br }}
+                </div>
+
+                <h4>How to apply?</h4>
+
+                <p>
+                    {{ job.howToApply }}
+                </p>
+            </div>
+        </summary>
+        <author>{{ job.company }}</author>
+    </entry>
+{% endfor %}

@@ -18,22 +18,23 @@ use COil\Jobeet2Bundle\Controller\Jobeet2Controller;
 class CategoryController extends Jobeet2Controller
 {
     /**
-     * Finds and displays a Category entity.
+     * Finds and displays the jobs related to a category Category.
      *
      * @Route("/{slug}", name="category_show")
+     * @Route("/{slug}/feed.{_format}", name="category_feed")
      *
      * @Template()
      */
     public function showAction($slug)
     {
-        $category = $this->getRepo('Category')->findOneBySlug($slug);
+        $categoryRepo = $this->getRepo('Category');
+        $category = $categoryRepo->findOneBySlug($slug);
 
         if (!$category) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
         // Get query
-        $categoryRepo = $this->getRepo('Category');
         $query = $categoryRepo->getActiveJobs($category->getId(), null, true);
 
         // Build paginator
@@ -44,8 +45,16 @@ class CategoryController extends Jobeet2Controller
             $this->container->getParameter('jobeet2.max_jobs_on_category')
         );
 
+        // Set a custom pager template
         $pager->setTemplate('Jobeet2Bundle:Category:_pager.html.twig');
 
-        return compact('category', 'pager');
+        // Render the template with the requested format
+        $format = $this->getRequest()->getRequestFormat();
+
+        return $this->render('Jobeet2Bundle:Category:show.'. $format. '.twig', array(
+            'category'   => $category,
+            'pager'      => $pager,
+            'latestPost' => $categoryRepo->getLatestPost($category->getId())
+        ));
     }
 }

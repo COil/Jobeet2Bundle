@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Jobeet</title>
+    <subtitle>Latest Jobs</subtitle>
+    <link href="{{ url('home', {'_format': 'atom'}) }}" rel="self"/>
+    <link href="{{ url('home') }}"/>
+    <updated>{{ latestPost.createdAt.format('Y-m-d') }}</updated>
+    <author>
+        <name>Jobeet2</name>
+    </author>
+    <id>{{ url('home')|sha1 }}</id>
+{% for i, category in categories %}
+{% include 'Jobeet2Bundle:Job:_list.atom.twig'  with {'category': category} %}
+{% endfor %}
+</feed>

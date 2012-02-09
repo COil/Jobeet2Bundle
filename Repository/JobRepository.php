@@ -102,4 +102,17 @@ class JobRepository extends EntityRepository
 
         return $q->getQuery()->execute();
     }
+
+    /**
+     * Get the last job that will expire/
+     *
+     * @return Job
+     */
+    public function getLatestPost()
+    {
+        $q = $this->findAllActiveJobs(null, true);
+        $q->setMaxResults(1);
+
+        return $q->getOneOrNullResult();
+    }
 }
