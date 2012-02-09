@@ -104,7 +104,7 @@ class JobRepository extends EntityRepository
     }
 
     /**
-     * Get the last job that will expire/
+     * Get the last job that will expire.
      *
      * @return Job
      */
