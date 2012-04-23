@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="affiliate")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Affiliate
 {
@@ -74,12 +75,12 @@ class Affiliate
     {
         $this->category = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
 
     /**
      * Get id
      *
-     * @return bigint 
+     * @return bigint
      */
     public function getId()
     {
@@ -99,7 +100,7 @@ class Affiliate
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -119,7 +120,7 @@ class Affiliate
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -137,9 +138,20 @@ class Affiliate
     }
 
     /**
+     * Set token automatically.
+     *
+     * @ORM\PrePersist
+     * @param string $token
+     */
+    public function setTokenValue()
+    {
+        $this->token = sha1($this->getEmail(). rand(11111, 99999));
+    }
+
+    /**
      * Get token
      *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
@@ -159,7 +171,7 @@ class Affiliate
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -179,7 +191,7 @@ class Affiliate
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
@@ -199,7 +211,7 @@ class Affiliate
     /**
      * Get updatedAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getUpdatedAt()
     {
@@ -219,7 +231,7 @@ class Affiliate
     /**
      * Get category
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getCategory()
     {

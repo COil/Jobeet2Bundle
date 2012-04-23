@@ -8,6 +8,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 use COil\Jobeet2Bundle\DataFixtures\ORM\LoadJobeet2Data;
 use COil\Jobeet2Bundle\Entity\Category as Category;
 
+/**
+ * Load Categories entities.
+ */
 class LoadCategoryData extends LoadJobeet2Data implements OrderedFixtureInterface
 {
     /**
@@ -37,6 +40,8 @@ class LoadCategoryData extends LoadJobeet2Data implements OrderedFixtureInterfac
 
     /**
      * The main fixtures file for this loader.
+     *
+     * @return string
      */
     public function getModelFile()
     {
@@ -45,6 +50,8 @@ class LoadCategoryData extends LoadJobeet2Data implements OrderedFixtureInterfac
 
     /**
      * The order in which these fixtures will be loaded.
+     * 
+     * @return integer
      */
     public function getOrder()
     {

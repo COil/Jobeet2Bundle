@@ -15,18 +15,13 @@ class Configuration implements ConfigurationInterface
 {
     /**
      * {@inheritDoc}
+     *
+     * @return TreeBuilder
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('jobeet2');
-
-//        $rootNode
-//            ->children()
-//                ->scalarNode('active_days2')->defaultValue(30)->end()
-//                ->scalarNode('max_jobs_on_homepage')->defaultValue(10)->end()
-//            ->end()
-//        ;
+        //$rootNode = $treeBuilder->root('jobeet2');
 
         return $treeBuilder;
     }

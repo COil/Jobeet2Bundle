@@ -4,11 +4,14 @@ namespace COil\Jobeet2Bundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 
+/**
+ * Controller for frontend admin action.
+ */
 class JobAdminController extends Controller
 {
     /**
      * Admin batch process to extend Job validity. A job can only be extented
-     * if it is expires soon?
+     * if it expires soon.
      *
      * @return RedirectResponse
      */

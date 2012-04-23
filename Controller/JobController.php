@@ -25,6 +25,8 @@ class JobController extends Jobeet2Controller
      * @Route("/{company_slug}/{location_slug}/{id}/{position_slug}", name="job_show_user")
      *
      * @Template("Jobeet2Bundle:Job:show.html.twig")
+     * 
+     * @return Response
      */
     public function showUserAction($id)
     {

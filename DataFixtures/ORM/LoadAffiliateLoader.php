@@ -9,9 +9,9 @@ use COil\Jobeet2Bundle\DataFixtures\ORM\LoadJobeet2Data;
 use COil\Jobeet2Bundle\Entity\Job as Job;
 
 /**
- * Load Job entities.
+ * Load Affiliate entities.
  */
-class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
+class LoadAffiliatData extends LoadJobeet2Data implements OrderedFixtureInterface
 {
     /**
      * Main load function.
@@ -20,7 +20,7 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
      */
     function load(ObjectManager $manager)
     {
-        $jobs = $this->getModelFixtures();
+        $affiliates = $this->getModelFixtures();
 
         // Now iterate thought all fixtures
         foreach ($jobs['Job'] as $reference => $columns)
@@ -46,47 +46,15 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
             $job->setToken($columns['token']);
             $job->setEmail($columns['email']);
 
-            // Don't persiste the job_add fixture because its the reference job for duplication
-            if ('job_add' != $reference)
-            {
-                $manager->persist($job);
-                $manager->flush();
+            $manager->persist($job);
+            $manager->flush();
 
-                // Add a reference to be able to use this object in others loaders
-                $this->addReference('Job_'. $reference, $job);
-            }
-
-            // Force the date fields for this "expired and old" job offer
-            if ('expired_job' == $reference)
-            {
-                $job->setExpiresAt(new \DateTime(isset($columns['expires_at']) ? $columns['expires_at'] : null));
-                $job->setCreatedAt(new \DateTime(isset($columns['expires_at']) ? $columns['expires_at'] : null));
-                $manager->persist($job);
-                $manager->flush();
-            }
+            // Add a reference to be able to use this object in others loaders
+            $this->addReference('Job_'. $reference, $job);
         }
 
         // Insert additional
         $this->duplicateLastJob($manager, $job);
-    }
-
-    /**
-     * Add addtional Jobs so we can test record limits and pagers.
-     *
-     * @param Doctrine\ORM\EntityManager $manager
-     * @param Job $job
-     */
-    protected function duplicateLastJob($manager, $job)
-    {
-        for ($i = 100; $i <= 130; $i++)
-        {
-            $jobClone = clone $job;
-            $jobClone->setCompany(sprintf($job->getCompany(), $i));
-            $jobClone->setHowToApply(sprintf($job->getHowToApply(), $i));
-            $jobClone->setToken(sprintf($job->getToken(), $i));
-            $manager->persist($jobClone);
-            $manager->flush();
-        }
     }
 
     /**
@@ -96,7 +64,7 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
      */
     public function getModelFile()
     {
-        return 'jobs';
+        return 'affiliates';
     }
 
     /**
@@ -106,6 +74,6 @@ class LoadJobData extends LoadJobeet2Data implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 2;
+        return 3;
     }
 }
