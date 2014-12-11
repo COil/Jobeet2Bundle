@@ -1,3 +1,6 @@
+/!\ This bundle is outdated as it was done with Symfony 2.0 /!\
+===============================================================
+
 Jobeet2
 =======
 
